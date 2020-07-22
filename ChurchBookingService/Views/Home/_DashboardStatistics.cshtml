@@ -1,0 +1,47 @@
+﻿
+@model IEnumerable<ChurchBookingService.Models.DashBoardData>
+
+<div class="d-flex flex-wrap">
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            string style = $"style='width: {@item.NumberOfPeople}% '";
+
+           
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                        <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Service No :@item.ServiceNo</span>
+
+                            @if (item.NumberOfPeople == 1)
+                            {
+                                <span class="info-box-number">@item.NumberOfPeople Person</span>
+                            }
+                            else
+                            {
+                                <span class="info-box-number">@item.NumberOfPeople People</span>
+                            }
+
+
+
+                            <div class="progress">
+                                <div class="progress-bar" @style></div>
+                            </div>
+                            <span class="progress-description">
+                                @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+           
+        }
+    }
+
+</div>
+

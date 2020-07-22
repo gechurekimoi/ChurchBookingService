@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ChurchBookingService.Models.ServiceBooked>
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="/Home/Index" class="btn btn-outline-primary btn-lg">Dashboard</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card border rounded" style="margin-top:20px; padding:0px;">
+            <div class="card-header bg-primary" style="border:none;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5> Service Date : @Model.FirstOrDefault().ChurchDay.ServiceDate.ToString("dd-MMM-yyyy") </h5>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h5>Service Number : @Model.FirstOrDefault().ServiceNo</h5>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body">
+
+                <table class="table table-striped table-sm" id="example1">
+                    <thead>
+                        <tr>
+                            <th>
+                                Full Name
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Age
+                            </th>
+                            <th>
+                                Phone Number
+                            </th>
+                            <th>
+                                Date of Booking
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Member.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Member.Gender)
+                                </td>
+                                <td>
+                                 
+
+                                    @Html.DisplayFor(modelItem => item.Member.Age)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Member.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateCreated)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+ 
+    <!-- DataTables -->
+ 
+    <script src="~/AdminLTE/plugins/datatables/jquery.dataTables.js"></script>
+   
+    <script src="~/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+   
+    <script src="~/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
+
+
+ 
+    <script src="~/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
+
+
+
+    <script>
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+    </script>
+}
+

@@ -1,0 +1,230 @@
+﻿@{
+
+    Layout = null;
+
+    ChurchDay churchDay = new ChurchDay();
+
+    if (ViewData["ChurchDay"] != null)
+    {
+        churchDay = (ChurchDay)ViewData["ChurchDay"];
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Book Church Service</title>
+
+    <!-- Icons font CSS-->
+    <link href="~/booking/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <link href="~/booking/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- ~/booking/vendor CSS-->
+    <link href="~/booking/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/booking/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="~/plugins/flipdown-master/flipdown-master/dist/flipdown.css" rel="stylesheet" />
+    <!-- Main CSS-->
+
+    <link href="~/booking/css/main.css" rel="stylesheet" />
+    <link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-1">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    <h2 class="title">Book Church Service</h2>
+                    <form method="POST" action="/Home/BookService" id="frmBookService">
+
+                        <input type="hidden" name="ChurchDayId" id="ChurchDayId" value="@churchDay.Id" />
+
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input class="input--style-1" type="text" name="FullName" required>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                            
+                                <div class="input-group">
+                                    <label>AGE</label>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="Age" required>
+                                            <option disabled="disabled" selected="selected"></option>
+                                            <option>13-20</option>
+                                            <option>20-30</option>
+                                            <option>30-40</option>
+                                            <option>40-50</option>
+                                            <option>50-58</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>GENDER</label>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="Gender" required>
+                                            <option disabled="disabled" selected="selected"></option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <label>Service Date </label>
+                                <input class="input--style-1" type="text" value="@churchDay.ServiceDate.ToString(" dd-MMM-yyyy")" disabled>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Service No </label>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select id="ServiceNo" name="ServiceNo" required>
+                                            <option disabled="disabled" selected="selected"></option>
+
+                                            @if (churchDay.NoOfServices > 0)
+                                            {
+                                                for (int i = 1; i <= churchDay.NoOfServices; i++)
+                                                {
+                                                    <option> @i</option>
+                                                }
+                                            }
+
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Phone Number </label>
+                                    <input class="input--style-1" type="number" name="PhoneNumber" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-t-20">
+                            @{ var now = DateTime.Now;}
+
+                            @if (churchDay.RegistrationDeadline.HasValue && now  < churchDay.RegistrationDeadline.Value)
+                            {
+                                <button class="btn btn--radius btn--green" type="submit">Book</button>
+                            }
+                            else
+                            {
+                                <h2> Sorry Registration has ended</h2>
+                            }
+
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:30px">
+                            <h4>Registration Deadline</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="flipdown" class="flipdown"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" value="@churchDay.RegistrationDeadline.Value.ToString("yyyy-MM-dd")" id="txtDeadline" />
+
+    <!-- Jquery JS-->
+    <script src="~/booking/vendor/jquery/jquery.min.js"></script>
+    <!-- ~/booking/vendor JS-->
+    <script src="~/booking/vendor/select2/select2.min.js"></script>
+    <script src="~/booking/vendor/datepicker/moment.min.js"></script>
+    <script src="~/booking/vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="~/booking/js/global.js"></script>
+    <script src="~/plugins/toastr/build/toastr.min.js"></script>
+    <script src="~/plugins/flipdown-master/flipdown-master/dist/flipdown.js"></script>
+    <script>
+        $("#frmBookService").on('submit', function (e) {
+            e.preventDefault();
+
+            var booking = $("#frmBookService").serialize();
+
+            console.log(booking);
+
+            $.ajax({
+                url: "/Home/BookService",
+                method: "POST",
+                data: booking,
+                success: function (obj) {
+
+                    if (obj == "success") {
+                        toastr.success('Your Seat has been booked Successfully', 'GCI Utawala');
+
+                        $("#frmBookService").trigger('reset');
+                    }
+                    else if (obj == "serviceFullyBooked") {
+                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                    } else {
+                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    }
+
+
+
+                },
+                error: function (x, y, z) {
+                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                },
+                complete: function () {
+
+                }
+            })
+
+        })
+
+        $(function () {
+            //var d = Math.round((new Date()).getTime() / 1000);
+
+            var deadline = $("#txtDeadline").val();
+
+            console.log(deadline);
+            var d = toTimestamp(deadline);
+            var flipdown = new FlipDown(d);
+            flipdown.start();
+        })
+
+
+        function toTimestamp(strDate) {
+            var datum = Date.parse(strDate);
+            return datum / 1000;
+        }
+    </script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+
+
+</html>
+<!-- end document-->
