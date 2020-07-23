@@ -4,6 +4,8 @@
 }
 <link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
 <link href="~/AdminLTE/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
+<link href="~/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" />
+
 <div class="row" style="margin:10px">
     <div class="col-md-10"></div>
     <div class="col-md-2">
@@ -35,23 +37,34 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Date of Service</label>
-                                <input required name="ServiceDate" id="ServiceDate" type="text" class="form-control" />
+                                <input required name="ServiceDate" id="ServiceDate" type="text" class="form-control" autocomplete="off" />
                             </div>
                             <div class="form-group">
                                 <label>Number of Services</label>
                                 <input required type="text" class="form-control" id="NoOfServices" name="NoOfServices" />
                             </div>
                             <div class="form-group">
-                                <label>Registration Deadline</label>
-                                <input required type="text" class="form-control" id="RegistrationDeadline" name="RegistrationDeadline" />
-                            </div>
-                        </div>
 
+                                <label>Registration Deadline Date</label>
+                                <input required type="text" class="form-control" id="RegistrationDeadline" name="RegistrationDeadline" autocomplete="off" />
+
+                            </div>
+                            <div class="form-group">
+
+                                <label>Registration Deadline Time</label>
+                                <input required type="time" class="form-control" id="RegistrationDeadlineTime" name="RegistrationDeadlineTime" autocomplete="off" />
+                            </div>
+
+
+                        </div>
                     </div>
+
                 </div>
+
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="l"><span class="ladda-label" id="btnSave">Save</span></button>
+
                 </div>
             </form>
         </div>
@@ -64,6 +77,8 @@
 
     <script src="~/AdminLTE/plugins/jquery-ui/jquery-ui.js"></script>
     <script src="~/plugins/toastr/build/toastr.min.js"></script>
+    <script src="~/plugins/ladda/spin.min.js"></script>
+    <script src="~/plugins/ladda/ladda.min.js"></script>
     <script>
         $(function () {
 
@@ -76,13 +91,20 @@
 
         $("#frmAddService").on('submit', function (e) {
 
-            e.preventDefault(); 
+            e.preventDefault();
             var data = $("#frmAddService").serialize();
+
+
+            var button = document.getElementById("btnSave");
+
+            var l = Ladda.create(button);
+
 
             $.ajax({
                 url: "/Home/SaveService",
                 type: "POST",
                 data: data,
+                beforeSend: function () { l.start(); },
                 success: function (obj) {
 
                     if (obj == "success") {
@@ -93,10 +115,13 @@
                     } else {
                         toastr.error('Ooops something went wrong', 'GCI Utawala');
                     }
-                   
+
                 },
                 error: function (x, y, z) {
                     toastr.error('Ooops something went wrong', 'GCI Utawala');
+                },
+                complete: function () {
+                    l.stop();
                 }
             })
         })
@@ -116,7 +141,7 @@
                         AssignChurchCardClickEvent();
                         toastr.success('Data loaded successfully', 'GCI Utawala');
                     }
-                    
+
                 },
                 error: function (x, y, z) {
                     toastr.error('Ooops something went wrong', 'GCI Utawala');

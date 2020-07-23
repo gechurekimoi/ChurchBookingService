@@ -44,6 +44,9 @@
                                 Phone Number
                             </th>
                             <th>
+                                Residence
+                            </th>
+                            <th>
                                 Date of Booking
                             </th>
 
@@ -52,26 +55,28 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Member.FullName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Member.Gender)
-                                </td>
-                                <td>
-                                 
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Member.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Member.Gender)
+                            </td>
+                            <td>
 
-                                    @Html.DisplayFor(modelItem => item.Member.Age)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Member.PhoneNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DateCreated)
-                                </td>
+                                @Html.DisplayFor(modelItem => item.Member.Age)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Member.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Member.Residence)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateCreated)
+                            </td>
 
-                            </tr>
+                        </tr>
                         }
                     </tbody>
                 </table>

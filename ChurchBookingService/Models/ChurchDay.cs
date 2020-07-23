@@ -12,5 +12,6 @@ namespace ChurchBookingService.Models
         public int NoOfServices { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? RegistrationDeadline { get; set; }
+        public DateTime? RegistrationDeadlineTime { get; set; }
     }
 }

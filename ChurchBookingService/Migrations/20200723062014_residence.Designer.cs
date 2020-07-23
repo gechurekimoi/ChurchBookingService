@@ -4,14 +4,16 @@ using ChurchBookingService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChurchBookingService.Migrations
 {
     [DbContext(typeof(ChurchBookDbContext))]
-    partial class ChurchBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200723062014_residence")]
+    partial class residence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace ChurchBookingService.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("RegistrationDeadline")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("RegistrationDeadlineTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ServiceDate")

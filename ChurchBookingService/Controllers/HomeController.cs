@@ -58,13 +58,19 @@ namespace ChurchBookingService.Controllers
                 {
                     //TODO: Add Validation to prevent Member from booking twice
 
+                    if(db.ServiceBooked.Include(p=>p.Member).Where(p=>p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo && p.Member.FullName == booking.FullName && p.Member.Age == booking.Age && p.Member.PhoneNumber == booking.PhoneNumber && p.Member.Residence == booking.Residence).Any())
+                    {
+                        return Json("MemberAlreadyBooked");
+                    }
+
                     Member member = new Member()
                     {
                         FullName = booking.FullName,
                         Age = booking.Age,
                         DateCreated = DateTime.Now,
                         Gender = booking.Gender,
-                        PhoneNumber = booking.PhoneNumber
+                        PhoneNumber = booking.PhoneNumber,
+                        Residence = booking.Residence
                     };
 
 
@@ -107,6 +113,8 @@ namespace ChurchBookingService.Controllers
             try
             {
                 churchDay.DateCreated = DateTime.Now;
+                churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddHours(churchDay.RegistrationDeadlineTime.Value.Hour);
+                churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddMinutes(churchDay.RegistrationDeadlineTime.Value.Minute);
 
                 db.ChurchDay.Add(churchDay);
                 db.SaveChanges();

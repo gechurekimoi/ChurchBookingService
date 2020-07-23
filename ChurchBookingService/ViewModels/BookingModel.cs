@@ -11,6 +11,6 @@ namespace ChurchBookingService.ViewModels
         //public Member Member { get; set; }
         public int ChurchDayId { get; set; }
         public int ServiceNo { get; set; }
-       
+
     }
 }

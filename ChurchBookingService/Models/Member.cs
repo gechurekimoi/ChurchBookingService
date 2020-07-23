@@ -12,6 +12,7 @@ namespace ChurchBookingService.Models
         public string Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string Age { get; set; }
+        public string Residence { get; set; }
         public DateTime DateCreated { get; set; }
 
     }

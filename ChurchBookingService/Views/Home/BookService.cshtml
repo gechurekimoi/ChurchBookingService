@@ -8,6 +8,13 @@
     {
         churchDay = (ChurchDay)ViewData["ChurchDay"];
     }
+
+
+
+    //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
+    var dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Local);
+    var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
+    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
 }
 
 <!DOCTYPE html>
@@ -39,11 +46,12 @@
 
     <link href="~/booking/css/main.css" rel="stylesheet" />
     <link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
+    <link href="~/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
-        <div class="wrapper wrapper--w680">
+        <div class="wrapper wrapper--w680" style="margin:20px;">
             <div class="card card-1">
                 <div class="card-heading"></div>
                 <div class="card-body">
@@ -125,24 +133,27 @@
                                     <input class="input--style-1" type="number" name="PhoneNumber" required>
                                 </div>
                             </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Residence </label>
+                                    <input class="input--style-1" type="text" name="Residence" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="p-t-20">
-                            @{ var now = DateTime.Now;}
 
-                            @if (churchDay.RegistrationDeadline.HasValue && now < churchDay.RegistrationDeadline.Value)
-                            {
-                                <button class="btn btn--radius btn--green" type="submit">Book</button>
-                            }
-                            else
-                            {
-                                <h2> Sorry Registration has ended</h2>
-                            }
+                            <button class="btn btn--radius btn--green ladda-button" data-style="expand-right" data-size="l" type="submit" id="btnSave"><span class="ladda-label">Book Service</span></button>
+                            
+
+
+                            <h2 id="txtMessage">Sorry Booking has ended</h2>
+
 
                         </div>
                     </form>
                     <div class="row">
                         <div class="col-md-12" style="margin-top:30px">
-                            <h4>Registration Deadline</h4>
+                            <h4>Booking Deadline</h4>
                         </div>
                         <div class="col-md-12">
                             <div id="flipdown" class="flipdown"></div>
@@ -155,11 +166,11 @@
 
     @if (churchDay != null && churchDay.RegistrationDeadline.HasValue)
     {
-        <input type="hidden" value="@churchDay.RegistrationDeadline.Value.ToString("yyyy-MM-dd")" id="txtDeadline" />
+        <input type="hidden" value="@unixDateTime" id="txtDeadline" />
     }
     else
     {
-        <input type="hidden" value="1900-01-01" id="txtDeadline" />
+        <input type="hidden" value="0" id="txtDeadline" />
     }
 
 
@@ -175,6 +186,8 @@
     <script src="~/booking/js/global.js"></script>
     <script src="~/plugins/toastr/build/toastr.min.js"></script>
     <script src="~/plugins/flipdown-master/flipdown-master/dist/flipdown.js"></script>
+    <script src="~/plugins/ladda/spin.min.js"></script>
+    <script src="~/plugins/ladda/ladda.min.js"></script>
     <script>
         $("#frmBookService").on('submit', function (e) {
             e.preventDefault();
@@ -183,10 +196,16 @@
 
             console.log(booking);
 
+            var button = document.getElementById("btnSave");
+
+            var l = Ladda.create(button);
+
+
             $.ajax({
                 url: "/Home/BookService",
                 method: "POST",
                 data: booking,
+                beforeSend: function () { l.start(); },
                 success: function (obj) {
 
                     if (obj == "success") {
@@ -196,7 +215,11 @@
                     }
                     else if (obj == "serviceFullyBooked") {
                         toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
-                    } else {
+                    }
+                    else if (obj == "MemberAlreadyBooked") {
+                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                    }
+                    else {
                         toastr.error('Ooops something went wrong', 'GCI Utawala');
                     }
 
@@ -207,7 +230,7 @@
                     toastr.error('Ooops something went wrong', 'GCI Utawala');
                 },
                 complete: function () {
-
+                    l.stop();
                 }
             })
 
@@ -216,12 +239,23 @@
         $(function () {
             //var d = Math.round((new Date()).getTime() / 1000);
 
-            var deadline = $("#txtDeadline").val();
+            var deadline = parseInt($("#txtDeadline").val()); 
 
-            console.log(deadline);
-            var d = toTimestamp(deadline);
-            var flipdown = new FlipDown(d);
+            var currentTime = Math.round((new Date()).getTime() / 1000);
+
+
+            if ((deadline - currentTime) < 0) {
+                $("#btnSave").hide();
+                $("#txtMessage").show();
+            } else {
+                $("#btnSave").show();
+                $("#txtMessage").hide();
+            }
+
+         
+            var flipdown = new FlipDown(deadline);
             flipdown.start();
+
         })
 
 
