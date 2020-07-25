@@ -12,7 +12,7 @@
 
 
     //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
-    var dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Local);
+    var dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
     var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
     var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
 }
@@ -24,9 +24,9 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Colorlib Templates">
-    <meta name="author" content="Colorlib">
-    <meta name="keywords" content="Colorlib Templates">
+    <meta name="description" content="Gci Utawala Book Service">
+    <meta name="author" content="Gci Utawala Church">
+    <meta name="keywords" content="Gci Utawala Book Service">
 
     <!-- Title Page-->
     <title>Book Church Service</title>
@@ -51,8 +51,8 @@
 
 <body>
     <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
-        <div class="wrapper wrapper--w680" style="margin:20px;">
-            <div class="card card-1">
+        <div class="wrapper wrapper--w680" >
+            <div class="card card-1" style="margin:20px;" >
                 <div class="card-heading"></div>
                 <div class="card-body" style="padding:8px">
                     <h2 class="title">Book Church Service</h2>
