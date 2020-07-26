@@ -83,7 +83,8 @@ namespace ChurchBookingService.Controllers
                         ChurchDayId = booking.ChurchDayId,
                         MemberId = member.Id,
                         ServiceNo = booking.ServiceNo,
-                        DateCreated = DateTime.Now
+                        DateCreated = DateTime.Now,
+                        SeatNo = GetSeatNo(booking.ChurchDayId,booking.ServiceNo)
                     };
 
                     db.ServiceBooked.Add(serviceBooked);
@@ -118,6 +119,31 @@ namespace ChurchBookingService.Controllers
 
                 db.ChurchDay.Add(churchDay);
                 db.SaveChanges();
+
+                //here we get all permanent members and add them to this added service 
+                var permementMembers = db.PermanentMember.ToList();
+                if (churchDay.NoOfServices > 0)
+                {
+                    foreach (var member in permementMembers)
+                    {
+                        for (int i = 1; i <= churchDay.NoOfServices; i++)
+                        {
+                            ServiceBooked serviceBooked = new ServiceBooked()
+                            {
+                                ChurchDayId = churchDay.Id,
+                                MemberId = member.Id,
+                                ServiceNo = i,
+                                DateCreated = DateTime.Now,
+                                SeatNo = member.SeatNo
+                            };
+
+                            db.ServiceBooked.Add(serviceBooked);
+                        }
+                    }
+                }
+
+                db.SaveChanges();
+
 
                 return Json("success");
             }
@@ -187,6 +213,94 @@ namespace ChurchBookingService.Controllers
                 return View(new List<ServiceBooked>());
             }
            
+        }
+
+        public IActionResult AddPermanentMember(PermanentMember member)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    member.FullName = member.Title + " " + member.FullName;
+                    db.PermanentMember.Add(member);
+                    db.SaveChanges();
+
+                    var churchDay = db.ChurchDay.OrderByDescending(p => p.Id).FirstOrDefault();
+
+                    if (churchDay.NoOfServices > 0)
+                    {
+                        for (int i = 1; i <= churchDay.NoOfServices; i++)
+                        {
+                            int seatNo = 0;
+
+                            if (member.SeatNo > 0)
+                            {
+                                seatNo = member.SeatNo;
+                            }
+
+
+                            ServiceBooked serviceBooked = new ServiceBooked()
+                            {
+                                ChurchDayId = churchDay.Id,
+                                MemberId = member.Id,
+                                ServiceNo =i,
+                                DateCreated = DateTime.Now,
+                                SeatNo = seatNo
+                            };
+
+                            db.ServiceBooked.Add(serviceBooked);
+                        }
+                    }
+
+                    db.SaveChanges();
+
+                    return Json("success");
+                }
+                return Json("InvalidModel");
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error");
+            }
+            
+        }
+
+        public IActionResult GetPermanentMembers()
+        {
+            var data = db.PermanentMember.ToList();
+
+            return View(data);
+        }
+
+
+        public int GetSeatNo(int churchDayId, int ServiceNo)
+        {
+            int seatNo = 0;
+
+            var service = db.ServiceBooked
+                            .Where(p => p.ChurchDayId == churchDayId && p.ServiceNo == ServiceNo)
+                            .OrderByDescending(x=>x.Id).FirstOrDefault();
+
+            if(service!= null)
+            {
+                if(service.SeatNo!=0 && service.SeatNo > 14)
+                {
+                    seatNo = service.SeatNo + 1;
+                }
+                else
+                {
+                    seatNo = 15;
+                }
+            }
+            else
+            {
+                seatNo = 15;
+            }
+
+
+
+            return seatNo;
         }
     }
 }

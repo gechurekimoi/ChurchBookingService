@@ -111,7 +111,9 @@
                         toastr.success('Services created Successfully', 'GCI Utawala');
                         $("#frmAddService").trigger('reset');
 
-                        $("#modal-default").modal('hide');
+                        //$("#modal-default").modal('hide');
+
+                        window.location.reload();
                     } else {
                         toastr.error('Ooops something went wrong', 'GCI Utawala');
                     }

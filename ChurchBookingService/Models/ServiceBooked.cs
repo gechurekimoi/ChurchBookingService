@@ -11,6 +11,7 @@ namespace ChurchBookingService.Models
         public int ChurchDayId { get; set; }
         public int MemberId { get; set; }
         public int ServiceNo { get; set; }
+        public int SeatNo { get; set; }
 
         public DateTime DateCreated { get; set; }
         public ChurchDay ChurchDay { get; set; }

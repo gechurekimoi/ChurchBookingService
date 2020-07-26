@@ -1,47 +1,126 @@
 ﻿
 @model IEnumerable<ChurchBookingService.Models.DashBoardData>
 
+@{
+
+    var currentDate = DateTime.Now.Date;
+    var upcomingServices = Model.Where(p => p.ServiceDate >= currentDate.Date).ToList();
+    var pastServices = Model.Where(p => p.ServiceDate < currentDate.Date).ToList();
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Upcoming Services </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="d-flex flex-wrap">
 
-    @if (Model.Count() > 0)
+    @if (upcomingServices.Count() > 0)
     {
-        foreach (var item in Model)
+        foreach (var item in upcomingServices)
         {
             string style = $"style='width: {@item.NumberOfPeople}% '";
 
-           
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
-                        <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">Service No :@item.ServiceNo</span>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
-                            @if (item.NumberOfPeople == 1)
-                            {
-                                <span class="info-box-number">@item.NumberOfPeople Person</span>
-                            }
-                            else
-                            {
-                                <span class="info-box-number">@item.NumberOfPeople People</span>
-                            }
+                    <div class="info-box-content">
+                        <span class="info-box-text">Service No :@item.ServiceNo</span>
+
+                        @if (item.NumberOfPeople == 1)
+                        {
+                            <span class="info-box-number">@item.NumberOfPeople Person</span>
+                        }
+                        else
+                        {
+                            <span class="info-box-number">@item.NumberOfPeople People</span>
+                        }
 
 
 
-                            <div class="progress">
-                                <div class="progress-bar" @style></div>
-                            </div>
-                            <span class="progress-description">
-                                @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
-                            </span>
+                        <div class="progress">
+                            <div class="progress-bar" @style></div>
                         </div>
-                        <!-- /.info-box-content -->
+                        <span class="progress-description">
+                            @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
+                        </span>
                     </div>
-                    <!-- /.info-box -->
+                    <!-- /.info-box-content -->
                 </div>
-           
+                <!-- /.info-box -->
+            </div>
+
         }
+    }
+    else
+    {
+        <h5>No Upcoming Services</h5>
     }
 
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Past Services </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap">
+
+    @if (pastServices.Count() > 0)
+    {
+        foreach (var item in pastServices)
+        {
+            string style = $"style='width: {@item.NumberOfPeople}% '";
+
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Service No :@item.ServiceNo</span>
+
+                        @if (item.NumberOfPeople == 1)
+                        {
+                            <span class="info-box-number">@item.NumberOfPeople Person</span>
+                        }
+                        else
+                        {
+                            <span class="info-box-number">@item.NumberOfPeople People</span>
+                        }
+
+
+
+                        <div class="progress">
+                            <div class="progress-bar" @style></div>
+                        </div>
+                        <span class="progress-description">
+                            @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
+                        </span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+        }
+    }
+    else
+    {
+        <h5>No Past Services</h5>
+    }
+
+</div>

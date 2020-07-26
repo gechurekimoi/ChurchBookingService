@@ -16,5 +16,6 @@ namespace ChurchBookingService.Models
         public DbSet<Member> Members { get; set; }
         public DbSet<ChurchDay> ChurchDay { get; set; }
         public DbSet<ServiceBooked> ServiceBooked { get; set; }
+        public DbSet<PermanentMember> PermanentMember { get; set; }
     }
 }

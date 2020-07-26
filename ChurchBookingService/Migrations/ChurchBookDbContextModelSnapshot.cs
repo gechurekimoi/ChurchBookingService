@@ -59,6 +59,10 @@ namespace ChurchBookingService.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,6 +78,8 @@ namespace ChurchBookingService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Member");
                 });
 
             modelBuilder.Entity("ChurchBookingService.Models.ServiceBooked", b =>
@@ -92,6 +98,9 @@ namespace ChurchBookingService.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SeatNo")
+                        .HasColumnType("int");
+
                     b.Property<int>("ServiceNo")
                         .HasColumnType("int");
 
@@ -102,6 +111,19 @@ namespace ChurchBookingService.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("ServiceBooked");
+                });
+
+            modelBuilder.Entity("ChurchBookingService.Models.PermanentMember", b =>
+                {
+                    b.HasBaseType("ChurchBookingService.Models.Member");
+
+                    b.Property<int>("SeatNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("PermanentMember");
                 });
 
             modelBuilder.Entity("ChurchBookingService.Models.ServiceBooked", b =>

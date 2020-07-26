@@ -66,7 +66,7 @@
         <!-- /.control-sidebar -->
     </div>
 
-    @await Html.PartialAsync("~/Views/Shared/_Scripts.cshtml")
+    @Html.Partial("~/Views/Shared/_Scripts.cshtml")
     @RenderSection("scripts", required: false)
 </body>
 </html>
