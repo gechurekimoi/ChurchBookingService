@@ -302,5 +302,20 @@ namespace ChurchBookingService.Controllers
 
             return seatNo;
         }
+
+        [HttpPost]
+        public ActionResult DeleteChurchDay(int churchDayId)
+        {
+            var churchDay = db.ChurchDay.Where(p => p.Id == churchDayId).FirstOrDefault();
+
+            var bookedServices = db.ServiceBooked.Where(p => p.ChurchDayId == churchDayId).FirstOrDefault();
+
+            db.ServiceBooked.RemoveRange(bookedServices);
+            db.ChurchDay.Remove(churchDay);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

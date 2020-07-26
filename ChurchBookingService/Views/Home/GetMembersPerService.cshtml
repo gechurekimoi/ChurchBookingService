@@ -4,11 +4,19 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <a href="/Home/Index" class="btn btn-outline-primary btn-lg">Dashboard</a>
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/Home/Index" class="btn btn-outline-primary btn-lg">Dashboard</a>
+
+        </div>
+        <div class="col-md-6">
+           <form method="post" action="/Home/DeleteChurchDay">
+               <input type="hidden" name="churchDayId" value="@Model.FirstOrDefault().ChurchDayId"/>
+               <button type="submit" onclick='if(!confirm("Are you sure you want to Delete ?")){ return false; }'  class="btn btn-outline-danger btn-lg float-right" >Delete Service</button>
+           </form>
+
+        </div>
     </div>
-</div>
 
 <div class="row">
     <div class="col-md-12">
