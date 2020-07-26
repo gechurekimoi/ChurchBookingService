@@ -4,8 +4,8 @@
 @{
 
     var currentDate = DateTime.Now.Date;
-    var upcomingServices = Model.Where(p => p.ServiceDate >= currentDate.Date).ToList();
-    var pastServices = Model.Where(p => p.ServiceDate < currentDate.Date).ToList();
+    var upcomingServices = Model.Where(p => p.ServiceDate > currentDate.Date).ToList();
+    var pastServices = Model.Where(p => p.ServiceDate <= currentDate.Date).ToList();
 
 }
 
