@@ -2,21 +2,27 @@
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+
+
+    
 }
 
-    <div class="row">
-        <div class="col-md-6">
-            <a href="/Home/Index" class="btn btn-outline-primary btn-lg">Dashboard</a>
+<link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
 
-        </div>
-        <div class="col-md-6">
-           <form method="post" action="/Home/DeleteChurchDay">
-               <input type="hidden" name="churchDayId" value="@Model.FirstOrDefault().ChurchDayId"/>
-               <button type="submit" onclick='if(!confirm("Are you sure you want to Delete ?")){ return false; }'  class="btn btn-outline-danger btn-lg float-right" >Delete Service</button>
-           </form>
 
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <a href="/Home/Index" class="btn btn-outline-primary btn-lg">Dashboard</a>
+
     </div>
+    <div class="col-md-6">
+        <form method="post" action="/Home/DeleteChurchDay">
+            <input type="hidden" name="churchDayId" value="@Model.FirstOrDefault().ChurchDayId" />
+            <button type="submit" onclick='if(!confirm("Are you sure you want to Delete ?")){ return false; }' class="btn btn-outline-danger btn-lg float-right">Delete Service</button>
+        </form>
+
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -72,6 +78,7 @@
                                 <th>
                                     Temp
                                 </th>
+                                <th></th>
 
                             </tr>
                         </thead>
@@ -107,6 +114,13 @@
                                     <td>@Html.DisplayFor(m => item.SeatNo)</td>
                                     <td></td>
                                     <td></td>
+                                    <td>
+                                        @using (Html.BeginForm("", "", FormMethod.Get, htmlAttributes: new { @class = "frmCancelBooking" }))
+                                        {
+                                            <input type="hidden" value="@item.Id" name="Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger">Cancel Booking</button>
+                                        }
+                                    </td>
 
                                 </tr>
 
@@ -123,20 +137,19 @@
 
 
 @section scripts{
- 
+
     <!-- DataTables -->
- 
     @*<script src="~/AdminLTE/plugins/datatables/jquery.dataTables.js"></script>
-   
-    <script src="~/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
-   
-    <script src="~/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
+        <script src="~/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
 
- 
-    <script src="~/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>*@
+        <script src="~/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
 
+
+
+        <script src="~/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>*@
+    <script src="~/plugins/toastr/build/toastr.min.js"></script>
 
 
     <script>
@@ -144,14 +157,64 @@
         $('#example1').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                 'excel', 'pdf'
+                'excel', 'pdf'
             ]
         });
 
-        //$("#example1").DataTable({
-        //    "responsive": true,
-        //    "autoWidth": false,
-        //});
+
+
+        $(".frmCancelBooking").on('submit', function (e) {
+            e.preventDefault();
+
+            var id = $(this).serialize();
+
+            //console.log(booking);
+
+            //var button = document.getElementById("btnSave");
+
+            //var l = Ladda.create(button);
+
+
+            $.ajax({
+                url: "/Home/CancelBooking",
+                method: "POST",
+                data: id,
+                beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'GCI Utawala'); },
+                success: function (obj) {
+
+                    if (obj == "success") {
+                        toastr.success('Booking Cancellled Successfully', 'GCI Utawala');
+                        window.location.reload();
+
+
+                    }
+                    else if (obj == "serviceFullyBooked") {
+                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                    }
+                    else if (obj == "MemberAlreadyBooked") {
+                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                    }
+                    else {
+                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    }
+
+
+
+                },
+                error: function (x, y, z) {
+                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                },
+                complete: function () {
+
+                }
+            })
+
+        })
+
+                    //$("#example1").DataTable({
+                    //    "responsive": true,
+                    //    "autoWidth": false,
+                    //});
     </script>
 }
 

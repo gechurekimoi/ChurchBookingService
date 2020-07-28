@@ -54,10 +54,9 @@ namespace ChurchBookingService.Controllers
 
                 var count = db.ServiceBooked.Where(p => p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo).Count();
 
-                if(count < 100)
+                if(count < 64)
                 {
-                    //TODO: Add Validation to prevent Member from booking twice
-
+                    // Validation to prevent Member from booking twice
                     if(db.ServiceBooked.Include(p=>p.Member).Where(p=>p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo && p.Member.FullName == booking.FullName && p.Member.Age == booking.Age && p.Member.PhoneNumber == booking.PhoneNumber && p.Member.Residence == booking.Residence).Any())
                     {
                         return Json("MemberAlreadyBooked");
@@ -348,6 +347,31 @@ namespace ChurchBookingService.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult CancelBooking(int Id)
+        {
+            try
+            {
+                var serviceBooked = db.ServiceBooked.Find(Id);
+
+                db.ServiceBooked.Remove(serviceBooked);
+                var NoOfRows = db.SaveChanges();
+
+                if(NoOfRows > 0)
+                {
+                    return Json("success");
+                }
+                else
+                {
+                    return Json("error");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return Json("error");
+            }
         }
     }
 }

@@ -27,6 +27,7 @@
         {
             string style = $"style='width: {@item.NumberOfPeople}% '";
 
+            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
 
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
@@ -50,7 +51,7 @@
                             <div class="progress-bar" @style></div>
                         </div>
                         <span class="progress-description">
-                            Service No :@item.ServiceNo  ( @item.NumberOfPeople % Booked)
+                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -86,6 +87,8 @@
             string style = $"style='width: {@item.NumberOfPeople}% '";
 
 
+            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
@@ -108,7 +111,7 @@
                             <div class="progress-bar" @style></div>
                         </div>
                         <span class="progress-description">
-                            Service No :@item.ServiceNo  ( @item.NumberOfPeople % Booked)
+                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
                         </span>
                     </div>
                     <!-- /.info-box-content -->
