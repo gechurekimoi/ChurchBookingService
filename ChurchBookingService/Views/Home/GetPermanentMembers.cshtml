@@ -25,38 +25,40 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered table-sm">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Full Name</th>
-                                <th>Phone Number</th>
-                                <th>Gender</th>
-                                <th>Age</th>
-                                <th>Residence</th>
-                                <th>Seat</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{ int count = 1;}
-
-                            @foreach (var item in Model)
-                            {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
                                 <tr>
-                                    <td>@count</td>
-                                    <td>@item.FullName</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <td>@item.Gender</td>
-                                    <td>@item.Age</td>
-                                    <td>@item.Residence</td>
-                                    <td>@item.SeatNo</td>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
+                                    <th>Residence</th>
+                                    <th>Seat</th>
 
                                 </tr>
-                                count++;
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @{ int count = 1;}
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@item.Gender</td>
+                                        <td>@item.Age</td>
+                                        <td>@item.Residence</td>
+                                        <td>@item.SeatNo</td>
+
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

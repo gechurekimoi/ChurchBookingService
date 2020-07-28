@@ -33,7 +33,7 @@
                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Service No :@item.ServiceNo</span>
+                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
 
                         @if (item.NumberOfPeople == 1)
                         {
@@ -50,7 +50,7 @@
                             <div class="progress-bar" @style></div>
                         </div>
                         <span class="progress-description">
-                            @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
+                            Service No :@item.ServiceNo  ( @item.NumberOfPeople % Booked)
                         </span>
                     </div>
                     <!-- /.info-box-content -->
@@ -91,7 +91,7 @@
                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Service No :@item.ServiceNo</span>
+                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
 
                         @if (item.NumberOfPeople == 1)
                         {
@@ -108,7 +108,7 @@
                             <div class="progress-bar" @style></div>
                         </div>
                         <span class="progress-description">
-                            @item.ServiceDate.ToString("dd-MMM-yyyy") ( @item.NumberOfPeople % Booked)
+                            Service No :@item.ServiceNo  ( @item.NumberOfPeople % Booked)
                         </span>
                     </div>
                     <!-- /.info-box-content -->

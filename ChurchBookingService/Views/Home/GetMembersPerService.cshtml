@@ -36,82 +36,85 @@
             </div>
             <div class="card-body">
 
-                <table class="table table-bordered table-sm" id="example1">
-                    <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Full Name
-                            </th>
-                            <th>
-                                Gender
-                            </th>
-                            <th>
-                                Age
-                            </th>
-                            <th>
-                                Phone No
-                            </th>
-                            <th>
-                                Residence
-                            </th>
-                            <th>
-                                Booking Date
-                            </th>
+                <div class="table-responsive">
 
-                            <th>
-                                Proposed Seat
-                            </th>
-                            <th>
-                                Actual Seat
-                            </th>
-                            <th>
-                                Temp
-                            </th>
+                    <table class="table table-bordered table-sm" id="example1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Full Name
+                                </th>
+                                <th>
+                                    Gender
+                                </th>
+                                <th>
+                                    Age
+                                </th>
+                                <th>
+                                    Phone No
+                                </th>
+                                <th>
+                                    Residence
+                                </th>
+                                <th>
+                                    Booking Date
+                                </th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
+                                <th>
+                                    Proposed Seat
+                                </th>
+                                <th>
+                                    Actual Seat
+                                </th>
+                                <th>
+                                    Temp
+                                </th>
 
-                        @{ int count = 1;}
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <td>
-                                @count
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Member.FullName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Member.Gender)
-                            </td>
-                            <td>
+                            @{ int count = 1;}
 
-                                @Html.DisplayFor(modelItem => item.Member.Age)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Member.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Member.Residence)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateCreated)
-                            </td>
-                            <td>@Html.DisplayFor(m=> item.SeatNo)</td>
-                            <td></td>
-                            <td></td>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @count
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Member.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Member.Gender)
+                                    </td>
+                                    <td>
 
-                        </tr>
+                                        @Html.DisplayFor(modelItem => item.Member.Age)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Member.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Member.Residence)
+                                    </td>
+                                    <td>
+                                        @item.DateCreated.ToString("dd-MMM-yyyy")
+                                    </td>
+                                    <td>@Html.DisplayFor(m => item.SeatNo)</td>
+                                    <td></td>
+                                    <td></td>
 
-                            count++;
-                        }
-                    </tbody>
-                </table>
+                                </tr>
+
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

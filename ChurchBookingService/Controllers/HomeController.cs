@@ -122,16 +122,33 @@ namespace ChurchBookingService.Controllers
 
                 //here we get all permanent members and add them to this added service 
                 var permementMembers = db.PermanentMember.ToList();
+
                 if (churchDay.NoOfServices > 0)
                 {
                     foreach (var member in permementMembers)
                     {
                         for (int i = 1; i <= churchDay.NoOfServices; i++)
                         {
+
+                            var actualMember = new Member()
+                            {
+                                Age = member.Age,
+                                DateCreated = DateTime.Now,
+                                FullName = member.FullName,
+                                Gender = member.Gender,
+                                PhoneNumber = member.PhoneNumber,
+                                Residence = member.Residence
+
+                            };
+
+                            db.Members.Add(actualMember);
+                            db.SaveChanges();
+
+
                             ServiceBooked serviceBooked = new ServiceBooked()
                             {
                                 ChurchDayId = churchDay.Id,
-                                MemberId = member.Id,
+                                MemberId = actualMember.Id,
                                 ServiceNo = i,
                                 DateCreated = DateTime.Now,
                                 SeatNo = member.SeatNo
@@ -225,6 +242,20 @@ namespace ChurchBookingService.Controllers
                     db.PermanentMember.Add(member);
                     db.SaveChanges();
 
+                    var actualMember = new Member()
+                    {
+                        Age = member.Age,
+                        DateCreated = DateTime.Now,
+                        FullName = member.FullName,
+                        Gender = member.Gender,
+                        PhoneNumber = member.PhoneNumber,
+                        Residence = member.Residence
+
+                    };
+
+                    db.Members.Add(actualMember);
+                    db.SaveChanges();
+
                     var churchDay = db.ChurchDay.OrderByDescending(p => p.Id).FirstOrDefault();
 
                     if (churchDay.NoOfServices > 0)
@@ -242,7 +273,7 @@ namespace ChurchBookingService.Controllers
                             ServiceBooked serviceBooked = new ServiceBooked()
                             {
                                 ChurchDayId = churchDay.Id,
-                                MemberId = member.Id,
+                                MemberId = actualMember.Id,
                                 ServiceNo =i,
                                 DateCreated = DateTime.Now,
                                 SeatNo = seatNo
