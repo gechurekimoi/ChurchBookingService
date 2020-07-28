@@ -239,6 +239,7 @@ namespace ChurchBookingService.Controllers
                 if (ModelState.IsValid)
                 {
                     member.FullName = member.Title + " " + member.FullName;
+                    member.DateCreated = DateTime.Now;
                     db.PermanentMember.Add(member);
                     db.SaveChanges();
 
