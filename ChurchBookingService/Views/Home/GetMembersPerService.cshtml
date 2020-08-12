@@ -179,30 +179,30 @@
                 url: "/Home/CancelBooking",
                 method: "POST",
                 data: id,
-                beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'GCI Utawala'); },
+                beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'Gci Thika Road'); },
                 success: function (obj) {
 
                     if (obj == "success") {
-                        toastr.success('Booking Cancellled Successfully', 'GCI Utawala');
+                        toastr.success('Booking Cancellled Successfully', 'Gci Thika Road');
                         window.location.reload();
 
 
                     }
                     else if (obj == "serviceFullyBooked") {
-                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                        toastr.error('Ooops service fully booked Please Select Next Service', 'Gci Thika Road');
                     }
                     else if (obj == "MemberAlreadyBooked") {
-                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                        toastr.info('Ooops seems you have already booked this service', 'Gci Thika Road');
                     }
                     else {
-                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                        toastr.error('Ooops something went wrong', 'Gci Thika Road');
                     }
 
 
 
                 },
                 error: function (x, y, z) {
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    toastr.error('Ooops something went wrong', 'Gci Thika Road');
                 },
                 complete: function () {
 

@@ -108,19 +108,19 @@
                 success: function (obj) {
 
                     if (obj == "success") {
-                        toastr.success('Services created Successfully', 'GCI Utawala');
+                        toastr.success('Services created Successfully', 'Gci Thika Road');
                         $("#frmAddService").trigger('reset');
 
                         //$("#modal-default").modal('hide');
 
                         window.location.reload();
                     } else {
-                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                        toastr.error('Ooops something went wrong', 'Gci Thika Road');
                     }
 
                 },
                 error: function (x, y, z) {
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    toastr.error('Ooops something went wrong', 'Gci Thika Road');
                 },
                 complete: function () {
                     l.stop();
@@ -134,19 +134,19 @@
                 url: "/Home/GetDashboard",
                 type: "GET",
                 beforeSend: function () {
-                    toastr.info('Please wait as we get your data ...', 'GCI Utawala');
+                    toastr.info('Please wait as we get your data ...', 'Gci Thika Road');
                 },
                 success: function (obj) {
                     if (obj != null) {
 
                         $("#dashData").append(obj);
                         AssignChurchCardClickEvent();
-                        toastr.success('Data loaded successfully', 'GCI Utawala');
+                        toastr.success('Data loaded successfully', 'Gci Thika Road');
                     }
 
                 },
                 error: function (x, y, z) {
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    toastr.error('Ooops something went wrong', 'Gci Thika Road');
                 }
             })
         }

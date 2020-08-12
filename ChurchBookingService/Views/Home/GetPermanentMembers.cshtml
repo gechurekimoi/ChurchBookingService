@@ -178,7 +178,7 @@
                 success: function (obj) {
 
                     if (obj == "success") {
-                        toastr.success('Pastor or Member added Successfully', 'GCI Utawala');
+                        toastr.success('Pastor or Member added Successfully', 'Gci Thika Road');
                         l.stop();
 
                         $("#frmPermanentMembers").trigger('reset');
@@ -188,13 +188,13 @@
                         window.location.reload();
                     } else {
                         l.stop();
-                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                        toastr.error('Ooops something went wrong', 'Gci Thika Road');
                     }
 
                 },
                 error: function (x, y, z) {
                     l.stop();
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    toastr.error('Ooops something went wrong', 'Gci Thika Road');
                 },
                 complete: function () {
                     l.stop();

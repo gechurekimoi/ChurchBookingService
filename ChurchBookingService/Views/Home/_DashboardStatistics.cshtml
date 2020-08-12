@@ -15,58 +15,61 @@
             <div class="card-header">
                 <h4>Upcoming Services </h4>
             </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+
+                    @if (upcomingServices.Count() > 0)
+                    {
+                        foreach (var item in upcomingServices)
+                        {
+                            string style = $"style='width: {@item.NumberOfPeople}% '";
+
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+
+                            <div class="col-md-3 col-sm-6 col-12">
+                                <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
+
+                                        @if (item.NumberOfPeople == 1)
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople People</span>
+                                        }
+
+
+
+                                        <div class="progress">
+                                            <div class="progress-bar" @style></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <h5>No Upcoming Services</h5>
+                    }
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="d-flex flex-wrap">
 
-    @if (upcomingServices.Count() > 0)
-    {
-        foreach (var item in upcomingServices)
-        {
-            string style = $"style='width: {@item.NumberOfPeople}% '";
-
-            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
-
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
-                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
-
-                        @if (item.NumberOfPeople == 1)
-                        {
-                            <span class="info-box-number">@item.NumberOfPeople Person</span>
-                        }
-                        else
-                        {
-                            <span class="info-box-number">@item.NumberOfPeople People</span>
-                        }
-
-
-
-                        <div class="progress">
-                            <div class="progress-bar" @style></div>
-                        </div>
-                        <span class="progress-description">
-                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
-                        </span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-
-        }
-    }
-    else
-    {
-        <h5>No Upcoming Services</h5>
-    }
-
-</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -74,56 +77,58 @@
             <div class="card-header">
                 <h4>Past Services </h4>
             </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+
+                    @if (pastServices.Count() > 0)
+                    {
+                        foreach (var item in pastServices)
+                        {
+                            string style = $"style='width: {@item.NumberOfPeople}% '";
+
+
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+
+                            <div class="col-md-3 col-sm-6 col-12">
+                                <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
+
+                                        @if (item.NumberOfPeople == 1)
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople People</span>
+                                        }
+
+
+
+                                        <div class="progress">
+                                            <div class="progress-bar" @style></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <h5>No Past Services</h5>
+                    }
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="d-flex flex-wrap">
-
-    @if (pastServices.Count() > 0)
-    {
-        foreach (var item in pastServices)
-        {
-            string style = $"style='width: {@item.NumberOfPeople}% '";
-
-
-            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
-
-            <div class="col-md-3 col-sm-6 col-12">
-                <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
-                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
-
-                        @if (item.NumberOfPeople == 1)
-                        {
-                            <span class="info-box-number">@item.NumberOfPeople Person</span>
-                        }
-                        else
-                        {
-                            <span class="info-box-number">@item.NumberOfPeople People</span>
-                        }
-
-
-
-                        <div class="progress">
-                            <div class="progress-bar" @style></div>
-                        </div>
-                        <span class="progress-description">
-                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
-                        </span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-
-        }
-    }
-    else
-    {
-        <h5>No Past Services</h5>
-    }
-
-</div>

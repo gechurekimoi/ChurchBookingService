@@ -12,7 +12,13 @@
 
 
     //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
-    var dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
+    var dateTimeRegFinal = DateTime.Now;
+
+    if (Model != null)
+    {
+        dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
+    }
+
     var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
     var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
 }
@@ -24,9 +30,9 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Gci Utawala Book Service">
-    <meta name="author" content="Gci Utawala Church">
-    <meta name="keywords" content="Gci Utawala Book Service">
+    <meta name="description" content="Gci Thika Road Book Service">
+    <meta name="author" content="Gci Thika Road Church">
+    <meta name="keywords" content="Gci Thika Road Book Service">
 
     <!-- Title Page-->
     <title>Book Church Service</title>
@@ -50,7 +56,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
+    <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#bd9661">
         <div class="wrapper wrapper--w680" >
             <div class="card card-1" style="margin:20px;" >
                 <div class="card-heading"></div>
@@ -209,25 +215,25 @@
                 success: function (obj) {
 
                     if (obj == "success") {
-                        toastr.success('Your Seat has been booked Successfully', 'GCI Utawala');
+                        toastr.success('Your Seat has been booked Successfully', 'Gci Thika Road');
 
                         $("#frmBookService").trigger('reset');
                     }
                     else if (obj == "serviceFullyBooked") {
-                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                        toastr.error('Ooops service fully booked Please Select Next Service', 'Gci Thika Road');
                     }
                     else if (obj == "MemberAlreadyBooked") {
-                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                        toastr.info('Ooops seems you have already booked this service', 'Gci Thika Road');
                     }
                     else {
-                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                        toastr.error('Ooops something went wrong', 'Gci Thika Road');
                     }
 
 
 
                 },
                 error: function (x, y, z) {
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    toastr.error('Ooops something went wrong', 'Gci Thika Road');
                 },
                 complete: function () {
                     l.stop();
