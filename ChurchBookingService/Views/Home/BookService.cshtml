@@ -12,8 +12,15 @@
 
 
     //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
-    var dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
-    var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
+    var dateTimeRegFinal = DateTime.Now;
+
+    if(churchDay!=null){
+    dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
+
+}
+
+
+var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
     var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
 }
 
@@ -51,8 +58,8 @@
 
 <body>
     <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
-        <div class="wrapper wrapper--w680" >
-            <div class="card card-1" style="margin:20px;" >
+        <div class="wrapper wrapper--w680">
+            <div class="card card-1" style="margin:20px;">
                 <div class="card-heading"></div>
                 <div class="card-body" style="padding:8px">
                     <h2 class="title">Book Church Service</h2>
@@ -115,7 +122,7 @@
                                             {
                                                 for (int i = 1; i <= churchDay.NoOfServices; i++)
                                                 {
-                                                    <option> @i</option>
+                                            <option> @i</option>
                                                 }
                                             }
 
@@ -143,7 +150,7 @@
                         <div class="p-t-20">
 
                             <button class="btn btn--radius btn--green ladda-button" data-style="expand-right" data-size="l" type="submit" id="btnSave"><span class="ladda-label">Book Service</span></button>
-                            
+
 
 
                             <h2 id="txtMessage">Sorry Booking has ended</h2>
@@ -166,11 +173,11 @@
 
     @if (churchDay != null && churchDay.RegistrationDeadline.HasValue)
     {
-        <input type="hidden" value="@unixDateTime" id="txtDeadline" />
+    <input type="hidden" value="@unixDateTime" id="txtDeadline" />
     }
     else
     {
-        <input type="hidden" value="0" id="txtDeadline" />
+    <input type="hidden" value="0" id="txtDeadline" />
     }
 
 
@@ -239,7 +246,7 @@
         $(function () {
             //var d = Math.round((new Date()).getTime() / 1000);
 
-            var deadline = parseInt($("#txtDeadline").val()); 
+            var deadline = parseInt($("#txtDeadline").val());
 
             var currentTime = Math.round((new Date()).getTime() / 1000);
 
@@ -252,7 +259,7 @@
                 $("#txtMessage").hide();
             }
 
-         
+
             var flipdown = new FlipDown(deadline);
             flipdown.start();
 
