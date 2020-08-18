@@ -53,14 +53,15 @@ namespace ChurchBookingService.Controllers
 
             if(ServiceType!=null && ServiceType == "children")
             {
-                ViewData["ChurchDay"] = db.ChurchDay.Where(p => p.ServiceType == "childrensservice").OrderByDescending(p => p.Id).FirstOrDefault();
-
+                var dt = db.ChurchDay.Where(p => p.ServiceType == "childrensservice").OrderByDescending(p => p.Id).FirstOrDefault();
+                ViewData["ChurchDay"] = dt;
                 ViewData["ServiceType"] = "children";
             }
             else
             {
 
-                ViewData["ChurchDay"] = db.ChurchDay.Where(p => p.ServiceType == "mainservice").OrderByDescending(p => p.Id).FirstOrDefault();
+                var dt2  = db.ChurchDay.Where(p => p.ServiceType == "mainservice").OrderByDescending(p => p.Id).FirstOrDefault();
+                ViewData["ChurchDay"] = dt2;
                 ViewData["ServiceType"] = "adults";
             }
           

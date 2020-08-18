@@ -14,7 +14,7 @@
     //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
     var dateTimeRegFinal = DateTime.Now;
 
-    if (Model != null)
+    if (churchDay != null)
     {
         dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
     }

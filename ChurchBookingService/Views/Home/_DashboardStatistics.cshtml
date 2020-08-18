@@ -126,25 +126,57 @@
                                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
                                     <div class="info-box-content">
-                                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
+                                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
 
-                                        @if (item.NumberOfPeople == 1)
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople People</span>
+                                        @{
+                                            string ServiceName = "";
+
+                                            if (item.ServiceNo == 1)
+                                            {
+                                                ServiceName = "1st Service ";
+                                            }
+                                            else if (item.ServiceNo == 2)
+                                            {
+                                                ServiceName = "2nd Service ";
+                                            }
+                                            else if (item.ServiceNo == 3)
+                                            {
+                                                ServiceName = "3rd Service ";
+                                            }
+                                            else if (item.ServiceNo == 4)
+                                            {
+                                                ServiceName = "4th Service ";
+                                            }
+                                            else if (item.ServiceNo == 5)
+                                            {
+                                                ServiceName = "5th Service ";
+                                            }
+
+                                            if (item.ServiceType != null)
+                                            {
+                                                ServiceName = ServiceName + (item.ServiceType == "childrensservice" ? " ( Childrens)" : "( Adults)");
+                                            }
                                         }
 
+
+                                        <span class="progress-description">
+                                            @ServiceName
+                                        </span>
 
 
                                         <div class="progress">
                                             <div class="progress-bar" @style></div>
                                         </div>
-                                        <span class="progress-description">
-                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
-                                        </span>
+
+                                        @if (item.NumberOfPeople == 1)
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople Person ( @perc.ToString("N1") % Booked)</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="info-box-number">@item.NumberOfPeople People  ( @perc.ToString("N1") % Booked)</span>
+                                        }
+
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>
