@@ -11,5 +11,6 @@ namespace ChurchBookingService.Models
         public int ServiceNo { get; set; }
         public int NumberOfPeople { get; set; }
         public DateTime ServiceDate { get; set; }
+        public string ServiceType { get; set; }
     }
 }

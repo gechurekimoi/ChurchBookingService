@@ -38,10 +38,32 @@ namespace ChurchBookingService.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult BookService()
+        //public IActionResult BookService()
+        //{
+
+        //    ViewData["ChurchDay"] = db.ChurchDay.OrderByDescending(p => p.Id).FirstOrDefault();
+
+        //    return View();
+        //}
+
+
+   
+        public IActionResult BookService(string ServiceType ="adults")
         {
 
-            ViewData["ChurchDay"] = db.ChurchDay.OrderByDescending(p => p.Id).FirstOrDefault();
+            if(ServiceType!=null && ServiceType == "children")
+            {
+                ViewData["ChurchDay"] = db.ChurchDay.Where(p => p.ServiceType == "childrensservice").OrderByDescending(p => p.Id).FirstOrDefault();
+
+                ViewData["ServiceType"] = "children";
+            }
+            else
+            {
+
+                ViewData["ChurchDay"] = db.ChurchDay.Where(p => p.ServiceType == "mainservice").OrderByDescending(p => p.Id).FirstOrDefault();
+                ViewData["ServiceType"] = "adults";
+            }
+          
 
             return View();
         }
@@ -126,35 +148,40 @@ namespace ChurchBookingService.Controllers
                 {
                     foreach (var member in permementMembers)
                     {
-                        for (int i = 1; i <= churchDay.NoOfServices; i++)
+
+                        if(churchDay.ServiceType != "childrensservice")
                         {
-
-                            var actualMember = new Member()
+                            for (int i = 1; i <= churchDay.NoOfServices; i++)
                             {
-                                Age = member.Age,
-                                DateCreated = DateTime.Now,
-                                FullName = member.FullName,
-                                Gender = member.Gender,
-                                PhoneNumber = member.PhoneNumber,
-                                Residence = member.Residence
 
-                            };
+                                var actualMember = new Member()
+                                {
+                                    Age = member.Age,
+                                    DateCreated = DateTime.Now,
+                                    FullName = member.FullName,
+                                    Gender = member.Gender,
+                                    PhoneNumber = member.PhoneNumber,
+                                    Residence = member.Residence
 
-                            db.Members.Add(actualMember);
-                            db.SaveChanges();
+                                };
+
+                                db.Members.Add(actualMember);
+                                db.SaveChanges();
 
 
-                            ServiceBooked serviceBooked = new ServiceBooked()
-                            {
-                                ChurchDayId = churchDay.Id,
-                                MemberId = actualMember.Id,
-                                ServiceNo = i,
-                                DateCreated = DateTime.Now,
-                                SeatNo = member.SeatNo
-                            };
+                                ServiceBooked serviceBooked = new ServiceBooked()
+                                {
+                                    ChurchDayId = churchDay.Id,
+                                    MemberId = actualMember.Id,
+                                    ServiceNo = i,
+                                    DateCreated = DateTime.Now,
+                                    SeatNo = member.SeatNo
+                                };
 
-                            db.ServiceBooked.Add(serviceBooked);
+                                db.ServiceBooked.Add(serviceBooked);
+                            }
                         }
+                       
                     }
                 }
 
@@ -193,6 +220,7 @@ namespace ChurchBookingService.Controllers
                             dashBoardData.ServiceNo = Convert.ToInt32(result["ServiceNo"]);
                             dashBoardData.NumberOfPeople = Convert.ToInt32(result["NumberOfPeople"]);
                             dashBoardData.ServiceDate = Convert.ToDateTime(result["ServiceDate"]);
+                            dashBoardData.ServiceType = Convert.ToString(result["ServiceType"]);
 
                             dashBoardDatas.Add(dashBoardData);
 

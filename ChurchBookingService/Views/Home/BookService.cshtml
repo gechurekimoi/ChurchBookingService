@@ -21,6 +21,13 @@
 
     var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
     var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+
+    string serviceType = "";
+
+    if (ViewData["ServiceType"] != null)
+    {
+        serviceType = ViewData["ServiceType"].ToString();
+    }
 }
 
 <!DOCTYPE html>
@@ -61,7 +68,16 @@
             <div class="card card-1" style="margin:20px;" >
                 <div class="card-heading"></div>
                 <div class="card-body" style="padding:8px">
-                    <h2 class="title">Book Church Service</h2>
+
+                    @if (serviceType == "children")
+                    {
+                        <h2 class="title">Book Church Service (For Children) </h2>
+                    }
+                    else
+                    {
+                        <h2 class="title">Book Church Service </h2>
+                    }
+
                     <form method="POST" action="/Home/BookService" id="frmBookService">
 
                         <input type="hidden" name="ChurchDayId" id="ChurchDayId" value="@churchDay.Id" />
@@ -78,11 +94,20 @@
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="Age" required>
                                             <option disabled="disabled" selected="selected"></option>
-                                            <option>13-20</option>
-                                            <option>20-30</option>
-                                            <option>30-40</option>
-                                            <option>40-50</option>
-                                            <option>50-58</option>
+                                            @if (serviceType == "children")
+                                            {
+                                                <option>6-12</option>
+
+                                            }
+                                            else
+                                            {
+                                                <option>13-20</option>
+                                                <option>20-30</option>
+                                                <option>30-40</option>
+                                                <option>40-50</option>
+                                                <option>50-58</option>
+                                            }
+
 
                                         </select>
                                         <div class="select-dropdown"></div>
@@ -149,7 +174,7 @@
                         <div class="p-t-20">
 
                             <button class="btn btn--radius btn--green ladda-button" data-style="expand-right" data-size="l" type="submit" id="btnSave"><span class="ladda-label">Book Service</span></button>
-                            
+
 
 
                             <h2 id="txtMessage">Sorry Booking has ended</h2>

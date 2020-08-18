@@ -36,6 +36,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label>Type Of Service</label>
+                                <select name="ServiceType" id="ServiceType" class="form-control" required>
+                                    <option selected disabled>Selected</option>
+                                    <option value="mainservice">Main Service</option>
+                                    <option value="childrensservice">Childrens Service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Date of Service</label>
                                 <input required name="ServiceDate" id="ServiceDate" type="text" class="form-control" autocomplete="off" />
                             </div>
@@ -94,6 +102,8 @@
             e.preventDefault();
             var data = $("#frmAddService").serialize();
 
+
+            console.log(data);
 
             var button = document.getElementById("btnSave");
 
