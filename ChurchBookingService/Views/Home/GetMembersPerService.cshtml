@@ -4,10 +4,11 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 
 
-    
+
 }
 
 <link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
+<link href="~/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" />
 
 
 <div class="row">
@@ -17,7 +18,17 @@
     </div>
     <div class="col-md-6">
         <form method="post" action="/Home/DeleteChurchDay">
-            <input type="hidden" name="churchDayId" value="@Model.FirstOrDefault().ChurchDayId" />
+            @if (Model != null && Model.Count() > 0)
+            {
+                <input type="hidden" name="churchDayId" value="@Model.FirstOrDefault().ChurchDayId" />
+             
+            }
+            else
+            {
+                <input type="hidden" name="churchDayId" value="0" />
+                
+            }
+
             <button type="submit" onclick='if(!confirm("Are you sure you want to Delete ?")){ return false; }' class="btn btn-outline-danger btn-lg float-right">Delete Service</button>
         </form>
 
@@ -115,11 +126,12 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        @using (Html.BeginForm("", "", FormMethod.Get, htmlAttributes: new { @class = "frmCancelBooking" }))
+                                        @*@using (Html.BeginForm("CancelBooking", "Home", FormMethod.Get, htmlAttributes: new { }))
                                         {
-                                            <input type="hidden" value="@item.Id" name="Id" />
-                                            <button type="submit" class="btn btn-sm btn-danger">Cancel Booking</button>
-                                        }
+                                            <input type="hidden" class="bookingId" value="@item.Id" name="Id" />
+                                        }*@
+
+                                        <button id="btnDelete-@item.Id" type="button" data-id="@item.Id" class="btn btn-sm btn-danger btnCancelBooking ladda-button">Cancel Booking</button>
                                     </td>
 
                                 </tr>
@@ -150,71 +162,144 @@
 
         <script src="~/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>*@
     <script src="~/plugins/toastr/build/toastr.min.js"></script>
+    <script src="~/plugins/ladda/spin.min.js"></script>
+    <script src="~/plugins/ladda/ladda.min.js"></script>
 
 
     <script>
 
-        $('#example1').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'excel', 'pdf'
-            ]
-        });
+        $(function () {
 
+            $('#example1').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf'
+                ]
+            });
 
-
-        $(".frmCancelBooking").on('submit', function (e) {
-            e.preventDefault();
-
-            var id = $(this).serialize();
-
-            //console.log(booking);
-
-            //var button = document.getElementById("btnSave");
-
-            //var l = Ladda.create(button);
-
-
-            $.ajax({
-                url: "/Home/CancelBooking",
-                method: "POST",
-                data: id,
-                beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'GCI Utawala'); },
-                success: function (obj) {
-
-                    if (obj == "success") {
-                        toastr.success('Booking Cancellled Successfully', 'GCI Utawala');
-                        window.location.reload();
-
-
-                    }
-                    else if (obj == "serviceFullyBooked") {
-                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
-                    }
-                    else if (obj == "MemberAlreadyBooked") {
-                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
-                    }
-                    else {
-                        toastr.error('Ooops something went wrong', 'GCI Utawala');
-                    }
-
-
-
-                },
-                error: function (x, y, z) {
-                    toastr.error('Ooops something went wrong', 'GCI Utawala');
-                },
-                complete: function () {
-
-                }
-            })
+           
 
         })
 
-                    //$("#example1").DataTable({
-                    //    "responsive": true,
-                    //    "autoWidth": false,
-                    //});
+      
+        $("#example1").on('click', '.btnCancelBooking', function () {
+
+            var bookingId = $(this).data("id");
+            var btnId = "#btnDelete-" + bookingId;
+            var Id = bookingId;
+
+            console.log("hdhdhd");
+
+            if (confirm("Are you sure you want to cancel booking?")) {
+
+                console.log("deleting ...");
+
+
+
+                //var button = document.getElementById(btnId);
+
+                //var l = Ladda.create(button);
+
+
+                $.ajax({
+                    url: "/Home/CancelBooking",
+                    method: "POST",
+                    data: { Id: Id },
+                    beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'GCI Utawala'); },
+                    success: function (obj) {
+
+                        if (obj == "success") {
+                            toastr.success('Booking Cancellled Successfully', 'GCI Utawala');
+                            window.location.reload();
+
+
+                        }
+                        else if (obj == "serviceFullyBooked") {
+                            toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                        }
+                        else if (obj == "MemberAlreadyBooked") {
+                            toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                        }
+                        else {
+                            toastr.error('Ooops something went wrong', 'GCI Utawala');
+                        }
+
+
+
+                    },
+                    error: function (x, y, z) {
+                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    },
+                    complete: function () {
+
+                    }
+                })
+
+            } else {
+                console.log("Aborting ...");
+            }
+        })
+
+
+       
+
+      
+
+
+                //$(".frmCancelBooking").on('submit',function (e) {
+                //    e.preventDefault();
+
+                //    var id = $(this).serialize();
+
+                //    //console.log(booking);
+
+                //    //var button = document.getElementById("btnSave");
+
+                //    //var l = Ladda.create(button);
+
+
+                //    $.ajax({
+                //        url: "/Home/CancelBooking",
+                //        method: "POST",
+                //        data: id,
+                //        beforeSend: function () { toastr.info('Please be patient as we cancel the booking', 'GCI Utawala'); },
+                //        success: function (obj) {
+
+                //            if (obj == "success") {
+                //                toastr.success('Booking Cancellled Successfully', 'GCI Utawala');
+                //                window.location.reload();
+
+
+                //            }
+                //            else if (obj == "serviceFullyBooked") {
+                //                toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                //            }
+                //            else if (obj == "MemberAlreadyBooked") {
+                //                toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                //            }
+                //            else {
+                //                toastr.error('Ooops something went wrong', 'GCI Utawala');
+                //            }
+
+
+
+                //        },
+                //        error: function (x, y, z) {
+                //            toastr.error('Ooops something went wrong', 'GCI Utawala');
+                //        },
+                //        complete: function () {
+
+                //        }
+                //    })
+
+                //    return false;
+
+                //})
+
+                            //$("#example1").DataTable({
+                            //    "responsive": true,
+                            //    "autoWidth": false,
+                            //});
     </script>
 }
 

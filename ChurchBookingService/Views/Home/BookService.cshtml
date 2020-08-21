@@ -79,11 +79,12 @@ var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="Age" required>
                                             <option disabled="disabled" selected="selected"></option>
-                                            <option>13-20</option>
+                                            <option>10-20</option>
                                             <option>20-30</option>
                                             <option>30-40</option>
                                             <option>40-50</option>
                                             <option>50-58</option>
+                                            <option>59-68</option>
 
                                         </select>
                                         <div class="select-dropdown"></div>
@@ -122,7 +123,23 @@ var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
                                             {
                                                 for (int i = 1; i <= churchDay.NoOfServices; i++)
                                                 {
-                                            <option> @i</option>
+                                                    if (i == 1)
+                                                    {
+                                                        <option value="@i"> 1<sup>st</sup> Service 9am - 10.30am </option>
+                                                    }
+                                                    else if (i == 2)
+                                                    {
+                                                        <option value="@i"> 2<sup>nd</sup> Service 11.30am - 1pm </option>
+                                                    }
+                                                    else if (i == 3)
+                                                    {
+                                                        <option value="@i"> 3<sup>rd</sup> Service  </option>
+                                                    }
+                                                    else if (i == 4)
+                                                    {
+                                                        <option value="@i"> 4<sup>th</sup> Service  </option>
+                                                    }
+
                                                 }
                                             }
 
