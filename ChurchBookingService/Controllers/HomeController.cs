@@ -382,12 +382,21 @@ namespace ChurchBookingService.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
-            if(model.UserName.ToLower()=="gciutawala" && model.Password.ToLower() == "admin123")
+            if (model != null && model.UserName != null && model.UserName.Trim() != "" && model.Password != null && model.Password.Trim() != "")
             {
-                return RedirectToAction("Index");
+
+                if (model.UserName.ToLower() == "gciutawala" && model.Password.ToLower() == "admin123")
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
             }
             else
             {
+                ViewData["Error"] = true;
                 return View();
             }
            
