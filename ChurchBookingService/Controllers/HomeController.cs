@@ -373,5 +373,24 @@ namespace ChurchBookingService.Controllers
                 return Json("error");
             }
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel model)
+        {
+            if(model.UserName.ToLower()=="gciutawala" && model.Password.ToLower() == "admin123")
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+           
+        }
     }
 }
