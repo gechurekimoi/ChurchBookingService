@@ -54,7 +54,7 @@ namespace ChurchBookingService.Controllers
 
                 var count = db.ServiceBooked.Where(p => p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo).Count();
 
-                if(count < 64)
+                if(count < 70)
                 {
                     // Validation to prevent Member from booking twice
                     if(db.ServiceBooked.Include(p=>p.Member).Where(p=>p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo && p.Member.FullName == booking.FullName && p.Member.Age == booking.Age && p.Member.PhoneNumber == booking.PhoneNumber && p.Member.Residence == booking.Residence).Any())
@@ -66,7 +66,7 @@ namespace ChurchBookingService.Controllers
                     {
                         FullName = booking.FullName,
                         Age = booking.Age,
-                        DateCreated = DateTime.Now,
+                        DateCreated = DateTime.Now.AddHours(-3),
                         Gender = booking.Gender,
                         PhoneNumber = booking.PhoneNumber,
                         Residence = booking.Residence
@@ -115,6 +115,9 @@ namespace ChurchBookingService.Controllers
                 churchDay.DateCreated = DateTime.Now;
                 churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddHours(churchDay.RegistrationDeadlineTime.Value.Hour);
                 churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddMinutes(churchDay.RegistrationDeadlineTime.Value.Minute);
+
+                //here we are subtracting 3 hours because of the time difference in the server 
+                churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddHours(-3);
 
                 db.ChurchDay.Add(churchDay);
                 db.SaveChanges();

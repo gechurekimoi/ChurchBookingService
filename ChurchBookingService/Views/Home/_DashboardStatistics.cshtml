@@ -24,43 +24,43 @@
                         {
                             string style = $"style='width: {@item.NumberOfPeople}% '";
 
-                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
-                            <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+                            <div class="col-md-3 col-sm-6 col-12">
+                                <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
 
-                                @if (item.NumberOfPeople == 1)
+                                        @if (item.NumberOfPeople == 1)
                                         {
-                                <span class="info-box-number">@item.NumberOfPeople Person</span>
+                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
                                         }
                                         else
                                         {
-                                <span class="info-box-number">@item.NumberOfPeople People</span>
+                                            <span class="info-box-number">@item.NumberOfPeople People</span>
                                         }
 
 
 
-                                <div class="progress">
-                                    <div class="progress-bar" @style></div>
+                                        <div class="progress">
+                                            <div class="progress-bar" @style></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <span class="progress-description">
-                                    Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
-                                </span>
+                                <!-- /.info-box -->
                             </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
 
                         }
                     }
                     else
                     {
-                    <h5>No Upcoming Services</h5>
+                        <h5>No Upcoming Services</h5>
                     }
 
                 </div>
@@ -87,43 +87,55 @@
                             string style = $"style='width: {@item.NumberOfPeople}% '";
 
 
-                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+                            decimal perc = 0;
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
-                            <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+                            var theDateChangesStart = new DateTime(2020,09,30);
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
+                            if(item.ServiceDate <= theDateChangesStart)
+                            {
+                                perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+                            }
+                            else
+                            {
+                                perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
+                            }
 
-                                @if (item.NumberOfPeople == 1)
+
+                            <div class="col-md-3 col-sm-6 col-12">
+                                <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
+                                    <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
+
+                                        @if (item.NumberOfPeople == 1)
                                         {
-                                <span class="info-box-number">@item.NumberOfPeople Person</span>
+                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
                                         }
                                         else
                                         {
-                                <span class="info-box-number">@item.NumberOfPeople People</span>
+                                            <span class="info-box-number">@item.NumberOfPeople People</span>
                                         }
 
 
 
-                                <div class="progress">
-                                    <div class="progress-bar" @style></div>
+                                        <div class="progress">
+                                            <div class="progress-bar" @style></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                        </span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <span class="progress-description">
-                                    Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
-                                </span>
+                                <!-- /.info-box -->
                             </div>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <!-- /.info-box -->
-                    </div>
 
                         }
                     }
                     else
                     {
-                    <h5>No Past Services</h5>
+                        <h5>No Past Services</h5>
                     }
 
                 </div>
