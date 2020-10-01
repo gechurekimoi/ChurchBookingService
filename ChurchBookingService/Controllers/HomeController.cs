@@ -46,6 +46,7 @@ namespace ChurchBookingService.Controllers
             return View();
         }
 
+
         [HttpPost]
         public IActionResult BookService(BookingModel booking)
         {
@@ -107,6 +108,13 @@ namespace ChurchBookingService.Controllers
 
 
         }
+
+        public IActionResult BookService2()
+        {
+
+            return View();
+        }
+
 
         public IActionResult SaveService(ChurchDay churchDay)
         {

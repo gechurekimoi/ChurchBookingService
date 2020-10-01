@@ -1,0 +1,351 @@
+﻿@{
+
+    Layout = null;
+
+    ChurchDay churchDay = new ChurchDay();
+
+    if (ViewData["ChurchDay"] != null)
+    {
+        churchDay = (ChurchDay)ViewData["ChurchDay"];
+    }
+
+
+
+    //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
+    var dateTimeRegFinal = DateTime.Now;
+
+    if (churchDay != null && churchDay.RegistrationDeadline!=null)
+    {
+        dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
+
+    }
+
+
+    var dateTimeOffset = new DateTimeOffset(dateTimeRegFinal);
+    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Gci Utawala Book Service">
+    <meta name="author" content="Gci Utawala Church">
+    <meta name="keywords" content="Gci Utawala Book Service">
+
+    <!-- Title Page-->
+    <title>Book Church Service</title>
+
+   
+    <!-- Icons font CSS-->
+    <link href="~/booking/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <link href="~/booking/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- ~/booking/vendor CSS-->
+    <link href="~/booking/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/booking/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="~/plugins/flipdown-master/flipdown-master/dist/flipdown.css" rel="stylesheet" />
+    <!-- Main CSS-->
+
+    <link href="~/booking/css/main.css" rel="stylesheet" />
+    <link href="~/plugins/toastr/build/toastr.css" rel="stylesheet" />
+    <link href="~/plugins/ladda/ladda-themeless.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page-wrapper p-t-100 p-b-100 font-robo" style="background-color:#7a6f5b">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-1" style="margin:20px;">
+                <div class="card-heading"></div>
+                <div class="card-body" style="padding:8px">
+                    <h2 class="title">Book Church Service</h2>
+
+                    <div class="row">
+                        <table style="width:100%; border:none">
+                            <tr>
+                                <td width="10%">
+                                    <input class="form-check-input serviceType" type="radio" name="inlineRadioOptions" id="radioMainService" value="1" >
+                                </td>
+                                <td width="40%">
+                                    <label class="form-check-label " for="inlineRadio1">Main Service</label>
+                                </td>
+                                <td width="10%">
+                                    <input class="form-check-input serviceType" type="radio" name="inlineRadioOptions" id="radioChildrenService" value="0">
+                                </td>
+                                <td width="40%">
+                                    <label class="form-check-label" for="inlineRadio1">Childrens Service</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                
+                            </tr>
+                        </table>
+                      
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+                    </div>
+
+                    <form method="POST" action="/Home/BookService" id="frmBookService">
+
+                        <input type="hidden" name="ChurchDayId" id="ChurchDayId" value="@churchDay.Id" />
+
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input class="input--style-1" type="text" name="FullName" required>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+
+                                <div class="input-group"  >
+                                    <label>AGE</label>
+                                    <div id="selectDiv">
+
+                                    </div >
+                                    <div class="rs-select2 js-select-simple select--no-search">
+
+
+                                        <div class="select-dropdown"></div> </div>
+                                   
+                                    
+
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>GENDER</label>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="Gender" required>
+                                            <option disabled="disabled" selected="selected"></option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <label>Service Date </label>
+                                <input class="input--style-1" type="text" value="@churchDay.ServiceDate.ToString(" dd-MMM-yyyy")" disabled>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Service No </label>
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select id="ServiceNo" name="ServiceNo" required>
+                                            <option disabled="disabled" selected="selected"></option>
+
+                                            @if (churchDay.NoOfServices > 0)
+                                            {
+                                                for (int i = 1; i <= churchDay.NoOfServices; i++)
+                                                {
+                                                    if (i == 1)
+                                                    {
+                                                        <option value="@i"> 1<sup>st</sup> Service 9am - 10.30am </option>
+                                                    }
+                                                    else if (i == 2)
+                                                    {
+                                                        <option value="@i"> 2<sup>nd</sup> Service 11.30am - 1pm </option>
+                                                    }
+                                                    else if (i == 3)
+                                                    {
+                                                        <option value="@i"> 3<sup>rd</sup> Service  </option>
+                                                    }
+                                                    else if (i == 4)
+                                                    {
+                                                        <option value="@i"> 4<sup>th</sup> Service  </option>
+                                                    }
+
+                                                }
+                                            }
+
+
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Phone Number </label>
+                                    <input class="input--style-1" type="number" name="PhoneNumber" required>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label>Residence </label>
+                                    <input class="input--style-1" type="text" name="Residence" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-t-20">
+
+                            <button class="btn btn--radius btn--green ladda-button" data-style="expand-right" data-size="l" type="submit" id="btnSave"><span class="ladda-label">Book Service</span></button>
+
+
+
+                            <h2 id="txtMessage">Sorry Booking has ended</h2>
+
+
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:30px">
+                            <h4>Booking Deadline</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="flipdown" class="flipdown"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="@Url.Action("Login")" class="pull-right">Admin Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (churchDay != null && churchDay.RegistrationDeadline.HasValue)
+    {
+        <input type="hidden" value="@unixDateTime" id="txtDeadline" />
+    }
+    else
+    {
+        <input type="hidden" value="0" id="txtDeadline" />
+    }
+
+   
+    <!-- Jquery JS-->
+    <script src="~/booking/vendor/jquery/jquery.min.js"></script>
+    <!-- ~/booking/vendor JS-->
+    <script src="~/booking/vendor/select2/select2.min.js"></script>
+    <script src="~/booking/vendor/datepicker/moment.min.js"></script>
+    <script src="~/booking/vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="~/booking/js/global.js"></script>
+    <script src="~/plugins/toastr/build/toastr.min.js"></script>
+    <script src="~/plugins/flipdown-master/flipdown-master/dist/flipdown.js"></script>
+    <script src="~/plugins/ladda/spin.min.js"></script>
+    <script src="~/plugins/ladda/ladda.min.js"></script>
+    <script>
+        $("#frmBookService").on('submit', function (e) {
+            e.preventDefault();
+
+            var booking = $("#frmBookService").serialize();
+
+            console.log(booking);
+
+            var button = document.getElementById("btnSave");
+
+            var l = Ladda.create(button);
+
+
+            $.ajax({
+                url: "/Home/BookService",
+                method: "POST",
+                data: booking,
+                beforeSend: function () { l.start(); },
+                success: function (obj) {
+
+                    if (obj == "success") {
+                        toastr.success('Your Seat has been booked Successfully', 'GCI Utawala');
+
+                        $("#frmBookService").trigger('reset');
+                    }
+                    else if (obj == "serviceFullyBooked") {
+                        toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
+                    }
+                    else if (obj == "MemberAlreadyBooked") {
+                        toastr.info('Ooops seems you have already booked this service', 'GCI Utawala');
+                    }
+                    else {
+                        toastr.error('Ooops something went wrong', 'GCI Utawala');
+                    }
+
+
+
+                },
+                error: function (x, y, z) {
+                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                },
+                complete: function () {
+                    l.stop();
+                }
+            })
+
+        })
+
+        $(function () {
+            //var d = Math.round((new Date()).getTime() / 1000);
+
+            var deadline = parseInt($("#txtDeadline").val());
+
+            var currentTime = Math.round((new Date()).getTime() / 1000);
+
+
+            if ((deadline - currentTime) < 0) {
+                $("#btnSave").hide();
+                $("#txtMessage").show();
+            } else {
+                $("#btnSave").show();
+                $("#txtMessage").hide();
+            }
+
+
+            var flipdown = new FlipDown(deadline);
+            flipdown.start();
+
+        })
+
+        function toTimestamp(strDate) {
+            var datum = Date.parse(strDate);
+            return datum / 1000;
+        }
+
+        $(".serviceType").on('change', function () {
+
+
+            var selectedVal = $(this).val();
+
+            $("#selectDiv").empty();
+
+            var AgeLimitAdults = '<div class="rs-select2 js-select-simple select--no-search" ><select name="Age" required id="AgeMain"><option disabled="disabled" selected="selected"></option><option class="mainServiceAges">10-19</option>'
+            '<option class="mainServiceAges"> 20 - 29</option><option class="mainServiceAges">30-39</option> <option class="mainServiceAges">40-49</option><option class="mainServiceAges">50-59</option>' +
+                '<option class="mainServiceAges">60-68</option></select> <div class="select-dropdown"></div> </div>';
+
+            var AgeLimitChildren = ' <div class="rs-select2 js-select-simple select--no-search" ><select name="Age" required id="AgeChildren" ><option disabled="disabled" selected="selected"></option><option >Amani (Grade 1-4)</option><option >Furaha (Class 5)</option> </select><div class="select-dropdown"></div> </div>';
+
+
+            if (selectedVal == 1) {
+                $("#selectDiv").html(AgeLimitAdults);
+            } else {
+                $("#selectDiv").html(AgeLimitChildren);
+            }
+
+            //alert($(this).val());
+        })
+    </script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+
+
+</html>
+<!-- end document-->
