@@ -54,7 +54,7 @@ namespace ChurchBookingService
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=BookService}/{id?}");
+                    pattern: "{controller=Home}/{action=BookService2}/{id?}");
             });
         }
     }

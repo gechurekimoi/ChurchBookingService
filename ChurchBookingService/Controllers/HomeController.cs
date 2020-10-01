@@ -412,5 +412,15 @@ namespace ChurchBookingService.Controllers
             }
            
         }
+
+        public IActionResult GetServiceDetails(string serviceType)
+        {
+
+            var churchDay = db.ChurchDay
+                .Where(p => p.ServiceType.ToLower().Trim() == serviceType.ToLower().Trim())
+                .OrderByDescending(p => p.Id).FirstOrDefault();
+
+            return Json(churchDay);
+        }
     }
 }

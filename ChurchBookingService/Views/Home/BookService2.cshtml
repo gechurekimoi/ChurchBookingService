@@ -14,7 +14,7 @@
     //var dateTime = new DateTime(2015, 05, 24, 10, 2, 0, DateTimeKind.Local);
     var dateTimeRegFinal = DateTime.Now;
 
-    if (churchDay != null && churchDay.RegistrationDeadline!=null)
+    if (churchDay != null && churchDay.RegistrationDeadline != null)
     {
         dateTimeRegFinal = new DateTime(churchDay.RegistrationDeadline.Value.Year, churchDay.RegistrationDeadline.Value.Month, churchDay.RegistrationDeadline.Value.Day, churchDay.RegistrationDeadline.Value.Hour, churchDay.RegistrationDeadline.Value.Minute, 0, DateTimeKind.Unspecified);
 
@@ -39,7 +39,7 @@
     <!-- Title Page-->
     <title>Book Church Service</title>
 
-   
+
     <!-- Icons font CSS-->
     <link href="~/booking/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
@@ -70,7 +70,7 @@
                         <table style="width:100%; border:none">
                             <tr>
                                 <td width="10%">
-                                    <input class="form-check-input serviceType" type="radio" name="inlineRadioOptions" id="radioMainService" value="1" >
+                                    <input class="form-check-input serviceType" type="radio" name="inlineRadioOptions" id="radioMainService" value="1">
                                 </td>
                                 <td width="40%">
                                     <label class="form-check-label " for="inlineRadio1">Main Service</label>
@@ -84,10 +84,9 @@
 
                             </tr>
                             <tr>
-                                
                             </tr>
                         </table>
-                      
+
                         <br />
                         <br />
                         <br />
@@ -106,17 +105,25 @@
                         <div class="row row-space">
                             <div class="col-2">
 
-                                <div class="input-group"  >
+                                <div class="input-group">
                                     <label>AGE</label>
-                                    <div id="selectDiv">
 
-                                    </div >
+
+
                                     <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="Age" required id="selectAge" >
+                                            <option disabled="disabled" selected="selected"></option>
+                                            <option class="mainServiceAges">10-19</option>
+                                            <option class="mainServiceAges"> 20-29</option>
+                                            <option class="mainServiceAges">30-39</option>
+                                            <option class="mainServiceAges">40-49</option>
+                                            <option class="mainServiceAges">50-59</option>
 
+                                            <option class="mainServiceAges">60-68</option>
+                                        </select> <div class="select-dropdown"></div>
+                                    </div>
+                                    <div class="select-dropdown"></div>
 
-                                        <div class="select-dropdown"></div> </div>
-                                   
-                                    
 
                                 </div>
                             </div>
@@ -138,7 +145,7 @@
                         <div class="row row-space">
                             <div class="col-2">
                                 <label>Service Date </label>
-                                <input class="input--style-1" type="text" value="@churchDay.ServiceDate.ToString(" dd-MMM-yyyy")" disabled>
+                                <input class="input--style-1" id="ServiceDate" type="text" value="@churchDay.ServiceDate.ToString(" dd-MMM-yyyy")" disabled>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
@@ -230,7 +237,7 @@
         <input type="hidden" value="0" id="txtDeadline" />
     }
 
-   
+
     <!-- Jquery JS-->
     <script src="~/booking/vendor/jquery/jquery.min.js"></script>
     <!-- ~/booking/vendor JS-->
@@ -308,6 +315,7 @@
                 $("#txtMessage").hide();
             }
 
+            
 
             var flipdown = new FlipDown(deadline);
             flipdown.start();
@@ -326,20 +334,97 @@
 
             $("#selectDiv").empty();
 
-            var AgeLimitAdults = '<div class="rs-select2 js-select-simple select--no-search" ><select name="Age" required id="AgeMain"><option disabled="disabled" selected="selected"></option><option class="mainServiceAges">10-19</option>'
-            '<option class="mainServiceAges"> 20 - 29</option><option class="mainServiceAges">30-39</option> <option class="mainServiceAges">40-49</option><option class="mainServiceAges">50-59</option>' +
-                '<option class="mainServiceAges">60-68</option></select> <div class="select-dropdown"></div> </div>';
+            $("#selectAge").empty();
 
-            var AgeLimitChildren = ' <div class="rs-select2 js-select-simple select--no-search" ><select name="Age" required id="AgeChildren" ><option disabled="disabled" selected="selected"></option><option >Amani (Grade 1-4)</option><option >Furaha (Class 5)</option> </select><div class="select-dropdown"></div> </div>';
+            var AgeLimitAdults = '<option >10-19</option><option> 20 - 29</option><option >30-39</option><option >40-49</option><option>50-59</option><option> 60 and Above</option>';
 
+            var AgeLimitChildren = '<option >Amani (Grade 1-4)</option><option >Furaha (Class 5)</option>';
+
+           
+
+           
+            var type = "";
 
             if (selectedVal == 1) {
                 $("#selectDiv").html(AgeLimitAdults);
+                type = "mainservice";
+                $("#selectAge").append(AgeLimitAdults);
             } else {
                 $("#selectDiv").html(AgeLimitChildren);
+                type = "childrensservice";
+                $("#selectAge").append(AgeLimitChildren);
             }
 
-            //alert($(this).val());
+           
+
+            $.ajax({
+                url: "/Home/GetServiceDetails?serviceType=" + type,
+                method: "GET",
+
+                beforeSend: function () {
+                },
+                success: function (obj) {
+                    console.log(obj);
+
+                    $("#ChurchDayId").val(obj.id);
+
+                    var serviceDate = obj.serviceDate.split('T')[0];
+                    $("#ServiceDate").val(serviceDate);
+                    $("#ServiceNo").empty();
+
+                    var options = "";
+
+
+                    for (var i = 1; i <= obj.noOfServices; i++) {
+                        if (i == 1) {
+                            options += '<option value="' + i + '">1st Service 8:30am - 10:30am </option>';
+                        }
+                        else if (i == 2) {
+                            options += '<option value="' + i + '"> 2nd Service 10:30am - 1:30pm </option>';
+                        }
+                        else {
+                            options += '<option value="' + i + '"> Service </option>';
+                        }
+                    }
+
+                    $("#ServiceNo").append(options);
+
+
+                    var regDateDeadline =  new Date(obj.registrationDeadline);
+
+                    //var deadline = parseInt($("#txtDeadline").val());
+                    var deadline = Math.round(regDateDeadline.getTime() / 1000);
+
+                    console.log(deadline);
+
+                    var currentTime = Math.round((new Date()).getTime() / 1000);
+
+
+                    if ((deadline - currentTime) < 0) {
+                        $("#btnSave").hide();
+                        $("#txtMessage").show();
+                    } else {
+                        $("#btnSave").show();
+                        $("#txtMessage").hide();
+                    }
+
+                          
+                    $("#flipdown").empty();
+
+                    var flipdown = new FlipDown(deadline);
+                    flipdown.start();
+
+
+                },
+                error: function (x, y, z) {
+                    toastr.error('Ooops something went wrong', 'GCI Utawala');
+                },
+                complete: function () {
+
+                }
+            })
+
+
         })
     </script>
 
