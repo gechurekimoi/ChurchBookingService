@@ -26,6 +26,35 @@
 
                             decimal perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
 
+
+                            string ServiceName = "";
+
+                            if (item.ServiceNo == 1)
+                            {
+                                ServiceName = "1st Service ";
+                            }
+                            else if (item.ServiceNo == 2)
+                            {
+                                ServiceName = "2nd Service ";
+                            }
+                            else if (item.ServiceNo == 3)
+                            {
+                                ServiceName = "3rd Service ";
+                            }
+                            else if (item.ServiceNo == 4)
+                            {
+                                ServiceName = "4th Service ";
+                            }
+                            else if (item.ServiceNo == 5)
+                            {
+                                ServiceName = "5th Service ";
+                            }
+
+                            if (item.ServiceType != null)
+                            {
+                                ServiceName = ServiceName + (item.ServiceType == "childrensservice" ? " ( Childrens)" : "( Adults)");
+                            }
+
                             <div class="col-md-3 col-sm-6 col-12">
                                 <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
                                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
