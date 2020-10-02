@@ -204,6 +204,7 @@ namespace ChurchBookingService.Controllers
                             dashBoardData.ServiceNo = Convert.ToInt32(result["ServiceNo"]);
                             dashBoardData.NumberOfPeople = Convert.ToInt32(result["NumberOfPeople"]);
                             dashBoardData.ServiceDate = Convert.ToDateTime(result["ServiceDate"]);
+                            dashBoardData.ServiceType = Convert.ToString(result["ServiceType"]);
 
                             dashBoardDatas.Add(dashBoardData);
 

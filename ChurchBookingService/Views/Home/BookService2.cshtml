@@ -64,7 +64,7 @@
             <div class="card card-1" style="margin:20px;">
                 <div class="card-heading"></div>
                 <div class="card-body" style="padding:8px">
-                    <h2 class="title">Book Church Service</h2>
+                    <h4 class="title">Book Church Service</h4>
 
                     <div class="row">
                         <table style="width:100%; border:none">
@@ -83,7 +83,14 @@
                                 </td>
 
                             </tr>
-                            <tr>
+                            <tr id="trLoaders" style="display:none">
+                                <td colspan="2">
+                                    <p style="font-weight:bold">Please wait as we get service Details ...</p> 
+                                </td>
+                                <td colspan="2">
+
+                                    <img src="~/img/hkloader.gif" height="50" />
+                                </td>
                             </tr>
                         </table>
 
@@ -205,12 +212,12 @@
 
 
 
-                            <h2 id="txtMessage">Sorry Booking has ended</h2>
+                            <h4 id="txtMessage">Please select service before you continue ... </h4>
 
 
                         </div>
                     </form>
-                    <div class="row">
+                    <div class="row" id="divBookingDeadline" style="display:none">
                         <div class="col-md-12" style="margin-top:30px">
                             <h4>Booking Deadline</h4>
                         </div>
@@ -218,11 +225,11 @@
                             <div id="flipdown" class="flipdown"></div>
                         </div>
                     </div>
-                    <div class="row">
+                    @*<div class="row">
                         <div class="col-md-12">
                             <a href="@Url.Action("Login")" class="pull-right">Admin Login</a>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -252,6 +259,8 @@
     <script src="~/plugins/ladda/spin.min.js"></script>
     <script src="~/plugins/ladda/ladda.min.js"></script>
     <script>
+
+
         $("#frmBookService").on('submit', function (e) {
             e.preventDefault();
 
@@ -299,6 +308,9 @@
 
         })
 
+
+
+
         $(function () {
             //var d = Math.round((new Date()).getTime() / 1000);
 
@@ -327,6 +339,9 @@
             return datum / 1000;
         }
 
+
+
+
         $(".serviceType").on('change', function () {
 
 
@@ -334,11 +349,13 @@
 
             $("#selectDiv").empty();
 
+            $("#trLoaders").show();
+
             $("#selectAge").empty();
 
-            var AgeLimitAdults = '<option >10-19</option><option> 20 - 29</option><option >30-39</option><option >40-49</option><option>50-59</option><option> 60 and Above</option>';
+            var AgeLimitAdults = '<option >13-19</option><option> 20 - 29</option><option >30-39</option><option >40-49</option><option>50-59</option><option> 60 and Above</option>';
 
-            var AgeLimitChildren = '<option >Amani (Grade 1-4)</option><option >Furaha (Class 5)</option>';
+            var AgeLimitChildren = '<option> Amani (Grade 1 - 4)</option><option> Furaha (Class 5 - Class 8)</option>';
 
            
 
@@ -364,6 +381,9 @@
                 beforeSend: function () {
                 },
                 success: function (obj) {
+
+                    $("#divBookingDeadline").show();
+
                     console.log(obj);
 
                     $("#ChurchDayId").val(obj.id);
@@ -402,6 +422,7 @@
 
                     if ((deadline - currentTime) < 0) {
                         $("#btnSave").hide();
+                        $("#txtMessage").text('Sorry Booking has Ended');
                         $("#txtMessage").show();
                     } else {
                         $("#btnSave").show();
@@ -420,7 +441,7 @@
                     toastr.error('Ooops something went wrong', 'GCI Utawala');
                 },
                 complete: function () {
-
+                    $("#trLoaders").hide();
                 }
             })
 

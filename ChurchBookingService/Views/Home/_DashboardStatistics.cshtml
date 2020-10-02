@@ -55,6 +55,21 @@
                                 ServiceName = ServiceName + (item.ServiceType == "childrensservice" ? " ( Childrens)" : "( Adults)");
                             }
 
+
+                            string NumberOfPeople = "";
+
+                            @if (item.NumberOfPeople == 1)
+                            {
+                                NumberOfPeople = item.NumberOfPeople.ToString() + " Person";
+                            }
+                            else
+                            {
+                                NumberOfPeople = item.NumberOfPeople.ToString() + " People";
+                               
+                            }
+
+
+
                             <div class="col-md-3 col-sm-6 col-12">
                                 <div class="info-box bg-primary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
                                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
@@ -62,22 +77,13 @@
                                     <div class="info-box-content">
                                         <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
 
-                                        @if (item.NumberOfPeople == 1)
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople People</span>
-                                        }
-
-
+                                        <span class="info-box-number">@ServiceName</span>
 
                                         <div class="progress">
                                             <div class="progress-bar" @style></div>
                                         </div>
                                         <span class="progress-description">
-                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                            @NumberOfPeople ( @perc.ToString("N1") % Booked)
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -118,9 +124,9 @@
 
                             decimal perc = 0;
 
-                            var theDateChangesStart = new DateTime(2020,09,30);
+                            var theDateChangesStart = new DateTime(2020, 09, 30);
 
-                            if(item.ServiceDate <= theDateChangesStart)
+                            if (item.ServiceDate <= theDateChangesStart)
                             {
                                 perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
                             }
@@ -130,29 +136,63 @@
                             }
 
 
+
+                            string ServiceName = "";
+
+                            if (item.ServiceNo == 1)
+                            {
+                                ServiceName = "1st Service ";
+                            }
+                            else if (item.ServiceNo == 2)
+                            {
+                                ServiceName = "2nd Service ";
+                            }
+                            else if (item.ServiceNo == 3)
+                            {
+                                ServiceName = "3rd Service ";
+                            }
+                            else if (item.ServiceNo == 4)
+                            {
+                                ServiceName = "4th Service ";
+                            }
+                            else if (item.ServiceNo == 5)
+                            {
+                                ServiceName = "5th Service ";
+                            }
+
+                            if (item.ServiceType != null)
+                            {
+                                ServiceName = ServiceName + (item.ServiceType == "childrensservice" ? " ( Childrens)" : "( Adults)");
+                            }
+
+
+                            string NumberOfPeople = "";
+
+                            @if (item.NumberOfPeople == 1)
+                            {
+                                NumberOfPeople = item.NumberOfPeople.ToString() + " Person";
+                            }
+                            else
+                            {
+                                NumberOfPeople = item.NumberOfPeople.ToString() + " People";
+
+                            }
+
+
                             <div class="col-md-3 col-sm-6 col-12">
                                 <div class="info-box bg-secondary ChurchCard" data-churchid="@item.ChurchDayId" data-serviceno="@item.ServiceNo">
                                     <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
 
                                     <div class="info-box-content">
-                                        <span class="info-box-text">@item.ServiceDate.ToString("dd-MMM-yyyy")</span>
+                                        <span class="info-box-text"> @item.ServiceDate.ToString("dd-MMM-yyyy")   </span>
 
-                                        @if (item.NumberOfPeople == 1)
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople Person</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="info-box-number">@item.NumberOfPeople People</span>
-                                        }
-
-
+                                        <span class="info-box-number">@ServiceName</span>
 
                                         <div class="progress">
                                             <div class="progress-bar" @style></div>
                                         </div>
                                         <span class="progress-description">
-                                            Service No :@item.ServiceNo  ( @perc.ToString("N1") % Booked)
+                                            @NumberOfPeople ( @perc.ToString("N1") % Booked)
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
