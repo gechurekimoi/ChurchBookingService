@@ -125,7 +125,7 @@ namespace ChurchBookingService.Controllers
                 churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddMinutes(churchDay.RegistrationDeadlineTime.Value.Minute);
 
                 //here we are subtracting 3 hours because of the time difference in the server 
-                churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddHours(-3);
+                //churchDay.RegistrationDeadline = churchDay.RegistrationDeadline.Value.AddHours(-3);
 
                 db.ChurchDay.Add(churchDay);
                 db.SaveChanges();
