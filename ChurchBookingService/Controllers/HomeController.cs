@@ -423,5 +423,10 @@ namespace ChurchBookingService.Controllers
 
             return Json(churchDay);
         }
+
+        public ContentResult GetServerTime()
+        {
+            return Content(DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss"));
+        }
     }
 }
