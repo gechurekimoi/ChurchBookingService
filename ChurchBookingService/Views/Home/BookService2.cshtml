@@ -119,9 +119,9 @@
 
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select name="Age" required id="selectAge" >
-                                            <option disabled="disabled" selected="selected"></option>
+                                            <option disabled="disabled" selected="selected">Select Age</option>
                                             <option class="mainServiceAges">10-19</option>
-                                            <option class="mainServiceAges"> 20-29</option>
+                                            <option class="mainServiceAges">20-29</option>
                                             <option class="mainServiceAges">30-39</option>
                                             <option class="mainServiceAges">40-49</option>
                                             <option class="mainServiceAges">50-59</option>
@@ -138,8 +138,8 @@
                                 <div class="input-group">
                                     <label>GENDER</label>
                                     <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="Gender" required>
-                                            <option disabled="disabled" selected="selected"></option>
+                                        <select name="Gender" required id="theGenderSelect">
+                                            <option  selected="selected">Select Gender</option>
                                             <option value="M">Male</option>
                                             <option value="F">Female</option>
 
@@ -159,7 +159,7 @@
                                     <label>Service No </label>
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select id="ServiceNo" name="ServiceNo" required>
-                                            <option disabled="disabled" selected="selected"></option>
+                                            <option disabled="disabled" selected="selected">Select Service No</option>
 
                                             @if (churchDay.NoOfServices > 0)
                                             {
@@ -167,7 +167,8 @@
                                                 {
                                                     if (i == 1)
                                                     {
-                                                        <option value="@i"> 1<sup>st</sup> Service 9am - 10.30am </option>
+                                                        @*<option value="@i"> 1<sup>st</sup> Service 9am - 10.30am </option>*@
+                                                        <option value="@i"> 1<sup>st</sup> Service 9am - 1.30pm </option>
                                                     }
                                                     else if (i == 2)
                                                     {
@@ -283,7 +284,17 @@
                     if (obj == "success") {
                         toastr.success('Your Seat has been booked Successfully', 'GCI Utawala');
 
+                        let serviceDate = $("#ServiceDate").val();
+                        $('#theGenderSelect').prop('selectedIndex', 0);
+                        $('#selectAge').prop('selectedIndex', 0);
+                        $('#ServiceNo').prop('selectedIndex', 0);
+
+
                         $("#frmBookService").trigger('reset');
+                        $("#ServiceDate").val(serviceDate);
+                        $('#ServiceNo').prop('selectedIndex', 0);
+                       
+
                     }
                     else if (obj == "serviceFullyBooked") {
                         toastr.error('Ooops service fully booked Please Select Next Service', 'GCI Utawala');
@@ -353,9 +364,9 @@
 
             $("#selectAge").empty();
 
-            var AgeLimitAdults = '<option >13-19</option><option> 20 - 29</option><option >30-39</option><option >40-49</option><option>50-59</option><option> 60 and Above</option>';
+            var AgeLimitAdults = '<option  selected>Select Age Group</option><option >13-19</option><option>20-29</option><option >30-39</option><option >40-49</option><option>50-59</option><option> 60 and Above</option>';
 
-            var AgeLimitChildren = '<option> Amani (Grade 1 - 4)</option><option> Furaha (Class 5 - Class 8)</option>';
+            var AgeLimitChildren = '<option  selected>Select Age Group</option> <option> Amani (Grade 1 - 4)</option><option> Furaha (Class 5 - Class 8)</option>';
 
            
 
@@ -392,12 +403,12 @@
                     $("#ServiceDate").val(serviceDate);
                     $("#ServiceNo").empty();
 
-                    var options = "";
+                    var options = "<option  selected>Select Service </option>";
 
 
                     for (var i = 1; i <= obj.noOfServices; i++) {
                         if (i == 1) {
-                            options += '<option value="' + i + '">1st Service 8:30am - 10:30am </option>';
+                            options += '<option value="' + i + '">1st Service 9:30am - 1:00pm </option>';
                         }
                         else if (i == 2) {
                             options += '<option value="' + i + '"> 2nd Service 10:30am - 1:30pm </option>';

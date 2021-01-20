@@ -24,7 +24,7 @@
                         {
                             string style = $"style='width: {@item.NumberOfPeople}% '";
 
-                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
 
 
                             string ServiceName = "";
@@ -124,6 +124,7 @@
 
                             decimal perc = 0;
 
+                            //here we started having up to 70 people after this date
                             var theDateChangesStart = new DateTime(2020, 09, 30);
 
                             if (item.ServiceDate <= theDateChangesStart)
@@ -132,7 +133,19 @@
                             }
                             else
                             {
-                                perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
+                                //here we started having up to 200 people after this date
+                                var theDateChangesStart2 = new DateTime(2021, 01, 18);
+
+                                if (item.ServiceDate <= theDateChangesStart2)
+                                {
+                                    perc = ((decimal)item.NumberOfPeople / (decimal)70.0) * 100;
+                                }
+                                else
+                                {
+                                    perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
+                                }
+
+
                             }
 
 
