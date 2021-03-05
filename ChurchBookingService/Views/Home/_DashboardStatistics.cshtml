@@ -24,7 +24,7 @@
                         {
                             string style = $"style='width: {@item.NumberOfPeople}% '";
 
-                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.00) * 100;
 
 
                             string ServiceName = "";
@@ -133,10 +133,17 @@
                             }
                             else
                             {
-                                //here we started having up to 200 people after this date
+                                //this  we had up to 200 people for Anniversary
                                 var theDateChangesStart2 = new DateTime(2021, 01, 24);
 
+                                //this  we had up to 200 people for DGO Thanksgiving
+                                var theDateChangesStart3 = new DateTime(2021, 02, 28);
+
                                 if (item.ServiceDate.Date == theDateChangesStart2)
+                                {
+                                    perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
+                                }
+                                else if (item.ServiceDate.Date == theDateChangesStart3)
                                 {
                                     perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
                                 }
