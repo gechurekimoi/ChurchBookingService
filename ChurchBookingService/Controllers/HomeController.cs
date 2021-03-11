@@ -55,7 +55,7 @@ namespace ChurchBookingService.Controllers
 
                 var count = db.ServiceBooked.Where(p => p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo).Count();
 
-                if(count < 71)
+                if(count < 201)
                 {
                     // Validation to prevent Member from booking twice
                     if(db.ServiceBooked.Include(p=>p.Member).Where(p=>p.ChurchDayId == booking.ChurchDayId && p.ServiceNo == booking.ServiceNo && p.Member.FullName == booking.FullName && p.Member.Age == booking.Age && p.Member.PhoneNumber == booking.PhoneNumber && p.Member.Residence == booking.Residence).Any())

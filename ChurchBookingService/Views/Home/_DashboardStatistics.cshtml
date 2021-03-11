@@ -24,7 +24,8 @@
                         {
                             string style = $"style='width: {@item.NumberOfPeople}% '";
 
-                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.00) * 100;
+                           // decimal perc = ((decimal)item.NumberOfPeople / (decimal)64.00) * 100;
+                            decimal perc = ((decimal)item.NumberOfPeople / (decimal)200.00) * 100;
 
 
                             string ServiceName = "";
@@ -129,7 +130,8 @@
 
                             if (item.ServiceDate <= theDateChangesStart)
                             {
-                                perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+                                //perc = ((decimal)item.NumberOfPeople / (decimal)64.0) * 100;
+                                perc = ((decimal)item.NumberOfPeople / (decimal)200.0) * 100;
                             }
                             else
                             {
